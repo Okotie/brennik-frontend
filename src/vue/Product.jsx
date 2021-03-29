@@ -9,12 +9,12 @@ const useStyles = makeStyles(() => ({
     margin: '10px',
     width: '200px', 
     height: '100%',
-    boxShadow: '0 0 8px rgba(100,100,100,0.1)',
+    boxShadow: '0 0 3px rgba(0,0,0,0.4)',
     backgroundColor: 'rgba(255,255,255,1)',
     cursor: 'pointer',
     '&:hover' :{
-      boxShadow: '0 0 8px rgba(100,100,100,0.3)',
-      transform: 'scale(1.1)',
+      boxShadow: '0 0 8px rgba(0,0,0,0.6)',
+      transform: 'scale(1.05)',
     },
     '&:active' :{
       transform: 'translate(1px, 1px)',
@@ -58,14 +58,15 @@ const useStyles = makeStyles(() => ({
     width: '100%',
     height: '2em',
     marginTop: '5px',
-    color: '#1a1a1a',
+    marginBottom: '10px',
+    color: '#ffffff',
     textDecoration: 'none',
     fontSize: '16px',
-    backgroundColor: 'rgb(205,205,205)',
+    backgroundColor: '#9966FF',
     cursor: 'pointer',
     transition: 'all 0.6s ease',
     '&:hover' :{
-      backgroundColor: '#a7a7a7',
+      backgroundColor: '#6633CC',
     },
     '&:focus' :{
       outline: 'none !important',
@@ -122,9 +123,9 @@ const Product =({ id, name, price, flagNew, flagSoon, image, onClick })=> {
           <div className={classes.title}>{name}</div>
           <div className={classes.price}>{price + ' ₽'}</div>
         </div>
+        <button className={classes.button}>в корзину</button>
 
       </div>
-      <button className={classes.button}>в корзину</button>
     </Link>
 
   );

@@ -52,8 +52,8 @@ export default function ProductList({type}) {
             id={id}
             name={name}
             price={props.price}
-            //flagNew={props.flagNew}
-            //flagSoon={props.flagSoon}
+            //flagNew={checkFlag(props.flagNew)}
+            //flagSoon={checkFlag(props.flagSoon)}
             image={imgs[0]}
           />
         ))}

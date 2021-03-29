@@ -58,7 +58,7 @@ const Header = (props) => {
             <button className={classes.buttonMenu}>главная</button>
           </Link>
 
-          <Link to={'/products'}>
+          <Link to={'/shop'}>
             <button className={classes.buttonMenu}>магазин</button>
           </Link>
 
