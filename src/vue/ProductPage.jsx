@@ -11,17 +11,16 @@ const useStyles = makeStyles((theme) => ({
     marginTop: '2%',
     marginLeft: '10%',
     marginRight: '10%',
+    fontSize: '17px',
   },
   productPage: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(3, 1fr)',
+    gridTemplateColumns: 'repeat(2, 1fr)',
   },
   productBriefInfo: {
-    //border: 'solid black',
-    textAlign: 'right'
+    textAlign: 'left'
   },
   productTitle: {
-    //border: 'solid black',
     fontFamily: 'Montserrat',
     margin: '10px',
     fontSize: '25px',
@@ -29,34 +28,26 @@ const useStyles = makeStyles((theme) => ({
     color: '#3b3b3b',
   },
   productCharacteristics: {
-    //border: 'solid black',
-    fontFamily: 'Bellota Text',
+    fontFamily: 'Raleway',
     fontWeight: '500',
     margin: '10px',
-    fontSize: '17px',
     color: '#131313',
   },
   productPrice: {
-    //border: 'solid black',
     fontFamily: 'Montserrat',
     color: 'rgba(121,127,131,1)',
     margin: '10px',
     fontSize: '22px',
   },
   productCountInfo: {
-    //border: 'solid black',
     fontFamily: 'Segoe UI',
     margin: '10px',
     color: '#0A0A2A',
     fontSize: '12px',
     fontWeight: '700',
   },
-  productImage: {
-    //border: 'solid red',
-    //backgroundImage: `url(${'https://cdn.shopify.com/s/files/1/0657/9717/products/viking-warband_d1fdde27-414b-4687-9a2a-f0338b4d5fcb.jpg?v=1571438779'})`,
-    backgroundSize: 'cover',
-  },
   productButtonBuy: {
+    margin: '10px',
     border: 'none',
     fontFamily: 'Montserrat',
     height: '2em',
@@ -75,38 +66,25 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   productCarouselImgs: {
-    border: 'solid blue',
-    gridColumnStart: '1',
-    gridColumnEnd: '3',
     height: '400px',
     overflow: 'hidden',
+
   },
   img: {
-    //minWidth: 'auto',
-    //minHeight: 'auto',
-    maxWidth: '100%',
-    height: 'auto',
-
-    border: 'solid pink',
-    //height: 'auto',
+    minHeight: 'auto',
+    maxWidth: 'auto',
+    height: '370PX',
+    margin: 'auto',
     display: 'block',
-    //height: '400px',
-    //width: '100%',
-    //backgroundSize: 'cover',
   },
   productFullInfo: {
-    //border: 'solid pink',
     marginTop: '10px',
     gridColumnStart: '1',
-    gridColumnEnd: '4',
-    //height: '300px',
+    gridColumnEnd: '3',
   },
   productDescription: {
-    //border: 'solid pink',
     margin: '10px',
-    fontFamily: 'Bellota Text',
-    fontWeight: '600',
-    //height: '300px',
+    fontFamily: 'Raleway',
   },
 }));
 
@@ -166,10 +144,19 @@ const ProductPage = ({productId}) => {
               <button className={classes.productButtonBuy}>в корзину</button>
             </div>
 
-            <hr/>
             <div className={classes.productFullInfo}>
+              <hr/>
               <div className={classes.productTitle}>Описание</div>
               <div className={classes.productDescription}>{description}</div>
+            </div>
+            <div className={classes.productFullInfo}>
+              <hr/>
+              <div className={classes.productTitle}>Комплектация</div>
+              <div className={classes.productDescription}>
+                - 72 квадрата местности<br/>
+                - 1 дорожка подсчёта очков<br/>
+                - 40 фишек подданных<br/>
+              </div>
             </div>
           </div>
         </div>

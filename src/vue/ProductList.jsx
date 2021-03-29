@@ -11,7 +11,7 @@ const useStyles = makeStyles(() => ({
   },
   title: {
     color: '#3b3b3b',
-    fontFamily: 'Bellota Text',
+    fontFamily: 'Raleway',
     textAlign: 'center',
   },
   products: {
