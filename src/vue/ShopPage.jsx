@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 import '../index.css';
 import {products} from "../assets/mock/product";
@@ -10,13 +11,13 @@ import { withStyles } from '@material-ui/core/styles';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import CircleOutline from '@material-ui/icons/AddCircleOutline';
+import CheckBoxOutline from '@material-ui/icons/CheckBoxOutlineBlank';
 import Done from '@material-ui/icons/Done';
-
+import CircleOutline from '@material-ui/icons/RadioButtonUncheckedOutlined';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
+
 
 const muiTheme = createMuiTheme({
   overrides:{
@@ -26,19 +27,6 @@ const muiTheme = createMuiTheme({
       },
       track: {
         color: '#9966FF'
-      },
-    },
-    MuiRadio: {
-      root: {
-        color: '#9966FF',
-        '&$checked': {
-          color: 'green',
-        },
-      },
-      colorSecondary: {
-        '&$checked': {
-          color: 'green',
-        },
       },
     },
   }
@@ -52,6 +40,15 @@ const CustomCheckbox = withStyles({
   },
   checked: {},
 })((props) => <Checkbox color="default" {...props} />);
+
+const CustomRadio = withStyles({
+  root: {
+    '&$checked': {
+      color: "#9966FF",
+    },
+  },
+  checked: {},
+})((props) => <Radio color="default" {...props} />);
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -67,8 +64,6 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     minWidth: '20%',
     margin: '10px',
-    //backgroundColor: '#ffffff',
-    //boxShadow: '0 0 3px rgba(0,0,0,0.4)',
   },
   main: {
   },
@@ -99,11 +94,6 @@ const useStyles = makeStyles((theme) => ({
     width: '70px',
     fontSize: '16px',
   },
-  checkedIcon: {
-    '&$checked': {
-      color: 'green'
-    }
-  }
 }));
 
 const ProductPage = () => {
@@ -117,7 +107,7 @@ const ProductPage = () => {
   //слайдер Цена
   const priceMaxMin = {
     min: 0,
-    max: 1000,
+    max: 10000,
   };
   
   const [prices, setPrice] = useState([priceMaxMin.min, priceMaxMin.max]);
@@ -224,7 +214,7 @@ const ProductPage = () => {
               {developers.map(
                 (d) =>  (
                   <FormControlLabel
-                    control={<CustomCheckbox onChange={handleChangeDeveloper} icon={<CircleOutline />} checkedIcon={<Done />} value={d.id} />}
+                    control={<CustomCheckbox onChange={handleChangeDeveloper} icon={<CheckBoxOutline />} checkedIcon={<Done />} value={d.id} />}
                     label={d.name}
                   />
                 )
@@ -238,7 +228,17 @@ const ProductPage = () => {
               <RadioGroup value={type} onChange={handleChangeType}>
                 {types.map(
                   (t) =>  (
-                    <FormControlLabel value={t.id} disabled={t.disabled} control={<Radio />} label={t.name} />
+                    <FormControlLabel 
+                      value={t.id} 
+                      disabled={t.disabled} 
+                      control={
+                        <CustomRadio
+                          icon={<CircleOutline />}
+                          checkedIcon={<Done />}
+                        />  
+                      } 
+                      label={t.name} 
+                    />
                   )
                 )}
               </RadioGroup>
@@ -251,7 +251,6 @@ const ProductPage = () => {
           <div className={classes.products}>
             {products.map(({ id, imgs, description,name, ...props }) => (
               <Product
-                onClick={handleClick({ imgs, description, ...props })}
                 id={id}
                 name={name}
                 price={props.price}

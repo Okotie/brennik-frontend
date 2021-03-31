@@ -4,15 +4,9 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Box from '@material-ui/core/Box';
-import Container from '@material-ui/core/Container';
-import ScrollArrow from '../vue/ScrollArrow';
-import shopImg from '../assets/img/shop.jpg'
 import '../index.css'
-import NewProductsBlock from './ProductList';
-import ProductPage from './ProductPage';
 import {BrowserRouter as Router, Link, Route} from "react-router-dom";
-import {Switch} from "@material-ui/core";
+import Shopping from '@material-ui/icons/ShoppingCart';
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -21,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
     backdropFilter: 'blur(7px)',
   },
   buttonMenu: {
+    float: 'right',
     fontFamily: 'JetBrains Mono',
-    position: 'relative',
     padding: '0.7em 1em',
     backgroundColor: 'transparent',
     cursor: 'pointer',
@@ -31,9 +25,9 @@ const useStyles = makeStyles((theme) => ({
     margin: '0em 0.8em',
     border: '1px solid',
     transition: 'all 0.6s ease',
-    borderBottomColor: 'black',
+    borderBottomColor: '#C9C9C9',
     borderRightColor: 'transparent',
-    borderTopColor: 'black',
+    borderTopColor: '#C9C9C9',
     borderLeftColor: 'transparent',
     '&:hover': {
       backgroundColor: '#FAFAFA',
@@ -66,10 +60,15 @@ const Header = (props) => {
             <button className={classes.buttonMenu}>новости</button>
           </Link>
 
-          <Link to={'/'}>
+          <Link to={'/about'}>
+            <button className={classes.buttonMenu}>о нас</button>
+          </Link>
+
+          <Link to={'/contacts'}>
             <button className={classes.buttonMenu}>контакты</button>
           </Link>
 
+          <Shopping style={{margin: '0 0 0 auto', color: 'black'}}/>
         </Toolbar>
       </AppBar>
       <Toolbar id="back-to-top-anchor"/>

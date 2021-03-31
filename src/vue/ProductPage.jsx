@@ -2,8 +2,8 @@ import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import '../index.css';
 import Carousel from 'react-material-ui-carousel'
-import {Paper} from '@material-ui/core'
 import {products} from "../assets/mock/product";
+import AddToShop from '@material-ui/icons/AddShoppingCart';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -35,6 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
   productPrice: {
     fontFamily: 'Montserrat',
+    fontWeight: '800',
     color: 'rgba(121,127,131,1)',
     margin: '10px',
     fontSize: '22px',
@@ -46,29 +47,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '12px',
     fontWeight: '700',
   },
-  productButtonBuy: {
-    margin: '10px',
-    border: 'none',
-    fontFamily: 'Montserrat',
-    height: '2em',
-    color: '#ffffff',
-    padding: '0 10px 0 10px',
-    textDecoration: 'none',
-    fontSize: '16px',
-    backgroundColor: '#9966FF',
-    cursor: 'pointer',
-    transition: 'all 0.6s ease',
-    '&:hover' :{
-      backgroundColor: '#6633CC',
-    },
-    '&:focus' :{
-      outline: 'none !important',
-    },
-  },
   productCarouselImgs: {
     height: '400px',
     overflow: 'hidden',
-
   },
   img: {
     minHeight: 'auto',
@@ -86,53 +67,35 @@ const useStyles = makeStyles((theme) => ({
     margin: '10px',
     fontFamily: 'Raleway',
   },
+  flagNew: {
+    margin: '10px',
+    color: '#70C45B',
+    fontWeight: '800',
+  },
+  flagSoon: {
+    margin: '10px',
+    color: '#FAB73D',
+    fontWeight: '800',
+  },
 }));
 
-
-const Item= (props)=> {
-  return (
-    <Paper>
-      <div style={{backgroundImage: `url(${props.item.img})`}}/>
-      <h2>{props.item.name}</h2>
-      <p>{props.item.description}</p>
-    </Paper>
-  )
-}
-
-
-const ProductPage = ({productId}) => {
-  const classes = useStyles();
-
-  let items = [
-    {
-      name: "Random Name #1",
-      description: "Probably the most random thing you have ever seen!",
-      img: 'https://cdn.shopify.com/s/files/1/0657/9717/products/viking-warband_d1fdde27-414b-4687-9a2a-f0338b4d5fcb.jpg?v=1571438779'
-    },
-    {
-      name: "Random Name #2",
-      description: "Hello World!",
-      img: 'https://cdn.shopify.com/s/files/1/0657/9717/products/viking-warband_d1fdde27-414b-4687-9a2a-f0338b4d5fcb.jpg?v=1571438779'
-    }
-  ]
-
-
+const ProductPage = ({match}) => {
+  const classes = useStyles()
+ 
   return (
     <>
-      {products.map(({id, name, description, price, flagSoon, flagNew, imgs}) => (id === 4) && (
+      {products.map(({id, name, description, price, flagSoon, flagNew, imgs}) => (id === Number(match.params.productId)) && (
         <div className={classes.container}>
           <div className={classes.productPage}>
             <div className={classes.productCarouselImgs}>
-              <Carousel>{imgs.map(
-                img => //<div className={classes.img} style={{backgroundImage: `url(${img})`}}/>)}
-                  <img className={classes.img} src={img} alt={''}/>)}
-              </Carousel>
+              <Carousel>{imgs.map(img => <img className={classes.img} src={img} alt={''}/>)}</Carousel>
             </div>
 
             <div className={classes.productBriefInfo}>
 
-
               <div className={classes.productTitle}>{name}</div>
+              {Boolean(flagNew) && (<div className={classes.flagNew}>Новинка</div>)}
+              {Boolean(flagSoon) && (<div className={classes.flagSoon}>Скоро в продаже</div>)}
               <div className={classes.productCharacteristics}>
                 Характеристики:<br/>
                 - вес<br/>
@@ -141,7 +104,9 @@ const ProductPage = ({productId}) => {
               </div>
               <div className={classes.productCountInfo}>на складе - много</div>
               <div className={classes.productPrice}>{price + ' ₽'}</div>
-              <button className={classes.productButtonBuy}>в корзину</button>
+              <button className={'buttonViolet'}>
+                в корзину <AddToShop style={{float: 'right', marginLeft: '0.5em'}} />
+              </button>
             </div>
 
             <div className={classes.productFullInfo}>

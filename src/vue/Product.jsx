@@ -2,6 +2,7 @@ import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import '../index.css'
 import {Link} from "react-router-dom";
+import AddToShop from '@material-ui/icons/AddShoppingCart';
 
 const useStyles = makeStyles(() => ({
   main: {
@@ -38,9 +39,9 @@ const useStyles = makeStyles(() => ({
   },
   title: {
     margin: '0px',
-    fontFamily: 'Bellota Text',
+    fontFamily: 'Montserrat',
     fontSize: '14px',
-    fontWeight: '600',
+    fontWeight: '400',
     color: 'black',
     whiteSpace: 'nowrap',
     overflow: 'hidden',
@@ -48,29 +49,10 @@ const useStyles = makeStyles(() => ({
   },
   price: {
     fontFamily: 'Montserrat',
+    fontWeight: '800',
     color: 'rgba(121,127,131,1)',
     fontSize: '15px',
     textAlign: 'right',
-  },
-  button: {
-    border: 'none',
-    fontFamily: 'Montserrat',
-    width: '100%',
-    height: '2em',
-    marginTop: '5px',
-    marginBottom: '10px',
-    color: '#ffffff',
-    textDecoration: 'none',
-    fontSize: '16px',
-    backgroundColor: '#9966FF',
-    cursor: 'pointer',
-    transition: 'all 0.6s ease',
-    '&:hover' :{
-      backgroundColor: '#6633CC',
-    },
-    '&:focus' :{
-      outline: 'none !important',
-    },
   },
   flagNew: {
     fontFamily: 'Bellota Text',
@@ -100,7 +82,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 
-const Product =({ id, name, price, flagNew, flagSoon, image, onClick })=> {
+const Product =({ id, name, price, flagNew, flagSoon, image })=> {
   const classes = useStyles();
   return (
 
@@ -123,7 +105,9 @@ const Product =({ id, name, price, flagNew, flagSoon, image, onClick })=> {
           <div className={classes.title}>{name}</div>
           <div className={classes.price}>{price + ' ₽'}</div>
         </div>
-        <button className={classes.button}>в корзину</button>
+        <button style={{width: '100%'}} className={'buttonViolet'}>
+          в корзину<AddToShop style={{float: 'right'}} />
+        </button>
 
       </div>
     </Link>

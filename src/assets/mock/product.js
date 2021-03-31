@@ -29,7 +29,7 @@ export const products = [
   },
   {
     id: 3,
-    name: '3 версия - солдатики ',
+    name: '3 версия - солдатики 3 ',
     description: 'худшие солдатики в мире',
     price: 310000,
     flagNew: false,
@@ -90,7 +90,7 @@ export const products = [
       'https://i.pinimg.com/736x/79/81/0c/79810c5a590581159c637c8c574aab73.jpg',
     ],
   },
-  {
+  /*{
     id: 7,
     name: '3 версия - солдатики ',
     description: 'худшие солдатики в мире',
@@ -125,5 +125,5 @@ export const products = [
       'https://i.pinimg.com/originals/57/b7/aa/57b7aadf862a82a515cd0b03c618f8a1.jpg',
       'https://cdn.shopify.com/s/files/1/0657/9717/products/viking-warband_d1fdde27-414b-4687-9a2a-f0338b4d5fcb.jpg?v=1571438779',
     ],
-  },
+  },*/
 ];

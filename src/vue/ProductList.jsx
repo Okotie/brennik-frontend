@@ -28,10 +28,6 @@ const useStyles = makeStyles(() => ({
 
 export default function ProductList({type}) {
   const classes = useStyles();
-  const [selectedProduct, setselectedProduct] = useState(false);
-  const handleClick = (product) => () => {
-    setselectedProduct(product);
-  };
 
   const title = (type) => {
     return(
@@ -48,12 +44,9 @@ export default function ProductList({type}) {
 
         {products.map(({ id, imgs, description,name, ...props }) => (
           <Product
-            onClick={handleClick({ imgs, description, ...props })}
             id={id}
             name={name}
             price={props.price}
-            //flagNew={checkFlag(props.flagNew)}
-            //flagSoon={checkFlag(props.flagSoon)}
             image={imgs[0]}
           />
         ))}
