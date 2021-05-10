@@ -68,7 +68,9 @@ const Header = (props) => {
             <button className={classes.buttonMenu}>контакты</button>
           </Link>
 
-          <Shopping style={{margin: '0 0 0 auto', color: 'black'}}/>
+          <Link style={{margin: '0 0 0 auto'}} to={'/shoppingBasket'}>
+            <Shopping style={{color: 'black'}}/>
+          </Link>
         </Toolbar>
       </AppBar>
       <Toolbar id="back-to-top-anchor"/>

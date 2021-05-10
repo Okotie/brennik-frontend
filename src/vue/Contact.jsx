@@ -11,8 +11,6 @@ const useStyles = makeStyles(() => ({
     marginTop: '2%',
     marginLeft: '10%',
     marginRight: '10%',
-    display: '-webkit-flex',
-    display: 'flex',
     fontSize: '17px',
     fontFamily: 'Raleway',
     display: 'grid',
@@ -57,9 +55,9 @@ const Contact = () => {
     <>
       <div className={classes.container}>
         <div>
-          <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Ab11be14b8b36e840b24fd6a44203fb5ea1bbf761a5c6c706d97c21bf3badb303&amp;source=constructor" width="700" height="600" frameborder="0"></iframe>
+          <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Ab11be14b8b36e840b24fd6a44203fb5ea1bbf761a5c6c706d97c21bf3badb303&amp;source=constructor" width="700" height="600" frameborder="0"/>
         </div>
-        <div>
+        <div style={{marginLeft: '10px'}}>
           <div className={classes.title}>Как нас найти</div>
           <div className={classes.text}>
             <Phone className={classes.icon}/><a className={classes.link} href='tel:+79161599341'>+7 (925) 059-84-32</a><br/>

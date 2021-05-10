@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import clsx from 'clsx';
 import {makeStyles} from '@material-ui/core/styles';
 import '../index.css';
 import {products} from "../assets/mock/product";
@@ -17,16 +16,17 @@ import CircleOutline from '@material-ui/icons/RadioButtonUncheckedOutlined';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControl from '@material-ui/core/FormControl';
+import SearchIcon from '@material-ui/icons/Search';
 
 
 const muiTheme = createMuiTheme({
   overrides:{
     MuiSlider: {
       thumb:{
-      color: '#9966FF',
+      color: '#330066',
       },
       track: {
-        color: '#9966FF'
+        color: '#330066'
       },
     },
   }
@@ -35,7 +35,7 @@ const muiTheme = createMuiTheme({
 const CustomCheckbox = withStyles({
   root: {
     '&$checked': {
-      color: "#9966FF",
+      color: "#330066",
     },
   },
   checked: {},
@@ -44,7 +44,7 @@ const CustomCheckbox = withStyles({
 const CustomRadio = withStyles({
   root: {
     '&$checked': {
-      color: "#9966FF",
+      color: "#330066",
     },
   },
   checked: {},
@@ -56,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10%',
     marginRight: '10%',
     display: '-webkit-flex',
-    display: 'flex',
     fontSize: '17px',
     fontFamily: 'Raleway',
   },
@@ -94,14 +93,46 @@ const useStyles = makeStyles((theme) => ({
     width: '70px',
     fontSize: '16px',
   },
+  navTop: {
+    marginLeft: '20px',
+  },
+  search: {
+  },
+  input: {
+    fontFamily: 'Montserrat',
+    paddingLeft: '10px',
+    verticalAlign: 'middle',
+    width: '90%',
+    height: '2em',
+    fontSize: '16px',
+    marginTop: 'auto',
+    border:'none',
+    outline: 'none',
+    borderRight:'1px solid #727272',
+  },
+  inputButton: {
+    float: 'right',
+    height: '100%',
+    width: '10%',
+    border:'none',
+    outline: 'none',
+    fontSize: '26px',
+    cursor: 'pointer',
+    color: '#330066',
+    backgroundColor: '#d7d7d7',
+    '&:hover' :{
+      backgroundColor: '#9966FF',
+      color: '#ffffff',
+    },
+  },
 }));
 
-const ProductPage = () => {
+const ShopPage = () => {
   const classes = useStyles();
-  const [selectedProduct, setselectedProduct] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(false);
 
   const handleClick = (product) => () => {
-    setselectedProduct(product);
+    setSelectedProduct(product);
   };
 
   //слайдер Цена
@@ -203,8 +234,8 @@ const ProductPage = () => {
               />  
             </ThemeProvider>
             <div className={classes.priceInterval}>
-              <label>От<input className={classes.priceIntervalInput} value={Math.min(...prices)}/></label>
-              <label>До<input className={classes.priceIntervalInput} value={Math.max(...prices)}/></label>
+              <label style={{fontFamily: 'Montserrat',}}>От<input className={classes.priceIntervalInput} value={Math.min(...prices)}/></label>
+              <label style={{fontFamily: 'Montserrat',}}>До<input className={classes.priceIntervalInput} value={Math.max(...prices)}/></label>
             </div>
           </div>
           <hr/>
@@ -248,6 +279,15 @@ const ProductPage = () => {
         </div>
 
         <div className={classes.main}>
+          <div className={classes.navTop}>
+            <form className={classes.search} style={{maxWidth: '400px',}}>
+              <input className={classes.input} type="text" placeholder="Поиск..."/>
+              <button type="submit"  className={classes.inputButton}>
+                {/*<i className={'fas fa-search'}/>*/}
+                <SearchIcon style={{verticalAlign: 'middle',}}/>
+              </button>
+            </form>
+          </div>
           <div className={classes.products}>
             {products.map(({ id, imgs, description,name, ...props }) => (
               <Product
@@ -267,4 +307,4 @@ const ProductPage = () => {
   );
 }
 
-export default ProductPage;
+export default ShopPage;

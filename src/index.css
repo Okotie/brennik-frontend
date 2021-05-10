@@ -6,6 +6,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@600&display=swap');
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bellota+Text:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bellota+Text:wght@500&display=swap');
@@ -27,12 +28,13 @@ code {
 .buttonViolet {
   border: none;
   font-family: 'Montserrat';
+  font-size: 16px;
+  font-weight: 600;
   height: 2em;
   margin-top: 5px;
   margin-bottom: 10px;
   color: #ffffff;
   text-decoration: none;
-  font-size: 16px;
   background-color: #9966FF;
   cursor: pointer;
   transition: all 0.6s ease;
@@ -43,3 +45,10 @@ code {
 .buttonViolet:hover {
   background-color: #6633CC;
 }
+
+.price {
+  font-family: 'Montserrat';
+  font-weight: 800;
+  color: rgb(65, 65, 65);
+}
+

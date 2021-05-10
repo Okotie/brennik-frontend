@@ -1,12 +1,10 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import '../index.css'
 import {Link} from "react-router-dom";
-import AddToShop from '@material-ui/icons/AddShoppingCart';
 
 const useStyles = makeStyles(() => ({
   main: {
-    textDecorationLine: 'none',
     margin: '10px',
     width: '200px', 
     height: '100%',
@@ -24,6 +22,9 @@ const useStyles = makeStyles(() => ({
   containers: {
     margin: '10px',
     marginBottom: '0px',
+  },
+  link: {
+    textDecorationLine: 'none',
   },
   img: {
     height: '160px',
@@ -46,13 +47,6 @@ const useStyles = makeStyles(() => ({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
-  },
-  price: {
-    fontFamily: 'Montserrat',
-    fontWeight: '800',
-    color: 'rgba(121,127,131,1)',
-    fontSize: '15px',
-    textAlign: 'right',
   },
   flagNew: {
     fontFamily: 'Bellota Text',
@@ -81,12 +75,30 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-
 const Product =({ id, name, price, flagNew, flagSoon, image })=> {
   const classes = useStyles();
+
+  const changeLocalStorageBasket = () => {
+
+    const basket = JSON.parse(
+      localStorage.getItem("basket") || "[]"
+    );
+
+    if (basket.filter(p => p.id === id).length > 0) {
+      basket.filter(p => p.id === id).map(p => (p.count += 1))
+    } else {
+      basket.push({
+        id: id,
+        count: 1,
+      });
+    }
+
+    localStorage.setItem('basket', JSON.stringify(basket));
+  };
+
   return (
 
-    <Link className={classes.main}  to={`/products/${id}`}>
+    <div className={classes.main}>
       {Boolean(flagNew) && (
         <div className={classes.flagShadow}>
           <div className={classes.flagNew}>New</div>
@@ -100,17 +112,20 @@ const Product =({ id, name, price, flagNew, flagSoon, image })=> {
 
       <div className={classes.containers}>
 
-        <div className={classes.img} style={{backgroundImage: `url(${image})`}}/>
-        <div className={classes.info}>
-          <div className={classes.title}>{name}</div>
-          <div className={classes.price}>{price + ' ₽'}</div>
-        </div>
-        <button style={{width: '100%'}} className={'buttonViolet'}>
-          в корзину<AddToShop style={{float: 'right'}} />
+
+        <Link className={classes.link} to={`/products/${id}`}>
+          <div className={classes.img} style={{backgroundImage: `url(${image})`}}/>
+          <div className={classes.info}>
+            <div className={classes.title}>{name}</div>
+            <div style={{fontSize: '15px', textAlign: 'right',}} className={'price'}>{price + ' ₽'}</div>
+          </div>
+        </Link>
+        <button style={{width: '100%'}} className={'buttonViolet'} onClick={changeLocalStorageBasket}>
+          в корзину
         </button>
 
       </div>
-    </Link>
+    </div>
 
   );
 }

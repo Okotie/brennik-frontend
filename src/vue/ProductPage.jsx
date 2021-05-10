@@ -1,10 +1,11 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import '../index.css';
-import Carousel from 'react-material-ui-carousel'
 import {products} from "../assets/mock/product";
 import AddToShop from '@material-ui/icons/AddShoppingCart';
-
+import CarouselSmall from './CarouselSmall'
+import MyCarousel from './MyCarousel'
+import Tabs from './Tabs'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -18,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
     gridTemplateColumns: 'repeat(2, 1fr)',
   },
   productBriefInfo: {
-    textAlign: 'left'
+    textAlign: 'left',
+    marginLeft: '10px',
   },
   productTitle: {
     fontFamily: 'Montserrat',
@@ -33,17 +35,9 @@ const useStyles = makeStyles((theme) => ({
     margin: '10px',
     color: '#131313',
   },
-  productPrice: {
-    fontFamily: 'Montserrat',
-    fontWeight: '800',
-    color: 'rgba(121,127,131,1)',
-    margin: '10px',
-    fontSize: '22px',
-  },
   productCountInfo: {
     fontFamily: 'Segoe UI',
     margin: '10px',
-    color: '#0A0A2A',
     fontSize: '12px',
     fontWeight: '700',
   },
@@ -63,10 +57,6 @@ const useStyles = makeStyles((theme) => ({
     gridColumnStart: '1',
     gridColumnEnd: '3',
   },
-  productDescription: {
-    margin: '10px',
-    fontFamily: 'Raleway',
-  },
   flagNew: {
     margin: '10px',
     color: '#70C45B',
@@ -80,15 +70,46 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProductPage = ({match}) => {
-  const classes = useStyles()
+  const classes = useStyles();
+
+  const tabContent = (description) => (
+    [
+      { title: 'Описание', content: description },
+      { title: 'Комплектация', content: '- 72 квадрата местности ' + <br/> +
+          '- 1 дорожка подсчёта очков' + <br/> +
+          '- 40 фишек подданных' },
+    ]
+  );
+
+  const changeLocalStorageBasket = () => {
+    const basket = JSON.parse(
+      localStorage.getItem("basket") || "[]"
+    );
+
+    const id = Number(match.params.productId);
+
+    if (basket.filter(p => p.id === id).length > 0) {
+      basket.filter(p => p.id === id).map(p => (p.count += 1))
+    } else {
+      basket.push({
+        id: id,
+        count: 1,
+      });
+    }
+
+    localStorage.setItem('basket', JSON.stringify(basket));
+  };
  
   return (
     <>
-      {products.map(({id, name, description, price, flagSoon, flagNew, imgs}) => (id === Number(match.params.productId)) && (
+      {products.map(({id, name, description, price, flagSoon, flagNew, count, imgs}) => (id === Number(match.params.productId)) && (
         <div className={classes.container}>
+          {/*<CarouselSmall images={imgs} style={{border: 'solid red', height: '400px',}}/>*/}
           <div className={classes.productPage}>
             <div className={classes.productCarouselImgs}>
-              <Carousel>{imgs.map(img => <img className={classes.img} src={img} alt={''}/>)}</Carousel>
+
+              <MyCarousel images={imgs}/>
+              {/*<Carousel>{imgs.map(img => <img className={classes.img} src={img} alt={''}/>)}</Carousel>*/}
             </div>
 
             <div className={classes.productBriefInfo}>
@@ -102,26 +123,16 @@ const ProductPage = ({match}) => {
                 - ширина<br/>
                 - высота<br/>
               </div>
-              <div className={classes.productCountInfo}>на складе - много</div>
-              <div className={classes.productPrice}>{price + ' ₽'}</div>
-              <button className={'buttonViolet'}>
-                в корзину <AddToShop style={{float: 'right', marginLeft: '0.5em'}} />
+              <div className={classes.productCountInfo}>на складе - |||</div>
+              <div style={{fontSize: '22px', margin: '10px',}} className={'price'}>{price + ' ₽'}</div>
+              <button className={'buttonViolet'} style={{margin: '10px', width: '10em'}} onClick={changeLocalStorageBasket}>
+                в корзину
               </button>
             </div>
 
             <div className={classes.productFullInfo}>
-              <hr/>
-              <div className={classes.productTitle}>Описание</div>
-              <div className={classes.productDescription}>{description}</div>
-            </div>
-            <div className={classes.productFullInfo}>
-              <hr/>
-              <div className={classes.productTitle}>Комплектация</div>
-              <div className={classes.productDescription}>
-                - 72 квадрата местности<br/>
-                - 1 дорожка подсчёта очков<br/>
-                - 40 фишек подданных<br/>
-              </div>
+              <Tabs items={tabContent(description)} />
+              {/*<div className={classes.productTitle}>Описание</div>*/}
             </div>
           </div>
         </div>
