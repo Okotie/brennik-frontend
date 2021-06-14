@@ -1,8 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {products} from "../../assets/mock/product";
 import Typography from "@material-ui/core/Typography";
 import BasketProduct from "./BasketProduct";
+import {BasketContext} from "../cart/BasketProvider";
+import {getProductAPI} from "../api/api";
 
 
 const useStyles = makeStyles(() => ({
@@ -30,15 +32,17 @@ const useStyles = makeStyles(() => ({
 
 const ShoppingBasket = () => {
   const classes = useStyles();
-  const [basket, setBasket] = useState(JSON.parse(localStorage.getItem("basket")));
+  const { basket, count, price } = React.useContext(BasketContext);
+
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    setBasket(basket);
-    localStorage.setItem('basket', JSON.stringify(basket));
-  }, [basket]);
+    getProductAPI.getProductsByCodes(basket.map(b => (b.id)), setProducts);
+  }, []);
 
   return(
     <>
+      {basket.length > 0 &&
       <div className={classes.container}>
         <Typography className={classes.title} style={{textAlign: 'left',}} variant="h4">
           корзина
@@ -49,30 +53,39 @@ const ShoppingBasket = () => {
               добавленные товары:
             </Typography>
             <div>
-              {products.map(
-                (product) => (basket.filter(p => p.id === product.id).length > 0) && (
-                     <div >
-                         <div className={classes.title}>
-                           <BasketProduct
-                             basket={basket}
-                             setBasket={setBasket}
-                             product={product}
-                           />
-                         </div>
-                     </div>
-                ))}
+              {products.map((product) => (
+                <div >
+                  <div className={classes.title}>
+                    <BasketProduct
+                      product={product}
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
           <div style={{border: '1px solid green',  }}>
             <Typography className={classes.title} variant="h6">
               ваш заказ:
-              {/*<Typography className={'price'} style={{fontWeight: 800}} variant="subtitle1">{price * countFromBasket + ' ₽'}</Typography>*/}
+              <Typography className={'price'} style={{fontWeight: 600}} variant="subtitle1">
+                {'количество товаров: ' + count  + ' шт.'}
+              </Typography>
+              <Typography className={'price'} style={{fontWeight: 800}} variant="subtitle1">
+                {price  + ' ₽'}
+              </Typography>
             </Typography>
           </div>
         </div>
 
       </div>
-
+      }
+      {!basket.length > 0 &&
+      <div className={classes.container}>
+        <Typography className={classes.title} style={{textAlign: 'center',}} variant="h4">
+          В корзине пока ничего нет
+         </Typography>
+      </div>
+      }
     </>
   )
 };

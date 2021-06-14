@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import '../index.css'
 import Product from './Product';
-import {products} from "../assets/mock/product";
+import axios from "axios";
+import {getProductAPI} from "./api/api";
 
 const useStyles = makeStyles(() => ({
   main: {
@@ -28,12 +29,19 @@ const useStyles = makeStyles(() => ({
 
 export default function ProductList({type}) {
   const classes = useStyles();
+  const [product, setProduct] = useState([]);
 
   const title = (type) => {
     return(
       ((type === 'NEW') && 'новинки') || ((type === 'SOON') && 'доступно к предзаказу')
     )
   }
+
+  useEffect(() => {
+    ((type === 'NEW') && getProductAPI.getNewProduct(setProduct)) ||
+    ((type === 'SOON') && getProductAPI.getSoonProduct(setProduct));
+  }, []);
+
 
   return (
     <div className={classes.main}>
@@ -42,12 +50,12 @@ export default function ProductList({type}) {
       <div className={classes.products}>
 
 
-        {products.map(({ id, imgs, description,name, ...props }) => (
+        {product.map(({ vendorCode, images, description,name, ...props }) => (
           <Product
-            id={id}
+            vendorCode={vendorCode}
             name={name}
             price={props.price}
-            image={imgs[0]}
+            image={images[0]}
           />
         ))}
 

@@ -5,6 +5,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import ButtonBase from '@material-ui/core/ButtonBase';
 import DeleteIcon from '@material-ui/icons/Delete';
+import {BasketContext} from "../cart/BasketProvider";
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,85 +28,66 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '100%',
     maxHeight: '100%',
   },
+  link: {
+    textDecorationLine: 'none',
+    color: 'black'
+  },
 }));
 
-export default function BasketProduct({basket, setBasket, product}) {
+export default function BasketProduct({product}) {
   const classes = useStyles();
+  const { basket, addToBasket, removeItem, decrementToBasket } = React.useContext(BasketContext);
 
-  const decrementFromBasket = () => {
-    setBasket(
-      basket.find((p) => p.id === product.id)?.count === 1
-        ? basket.filter((p) => p.id !== product.id)
-        : basket.map((p) =>
-          p.id === product.id
-            ? {
-              ...p,
-              count: p.count - 1
-            }
-            : p
-        )
-    );
-  };
-
-  const addFromBasket = () => {
-    setBasket(
-      basket.map((p) =>
-        (p.id === product.id) && (p.count < product.countOnShop)
-          ? {
-            ...p,
-            count: p.count + 1
-          }
-          : p
-      )
-    );
-  };
-
-  const clearFromBasket = () => {
-    setBasket(basket.filter((p) => p.id !== product.id));
-  };
-
-  const countFromBasket = basket.find((p) => p.id === product.id).count;
-  const disabledAddFromBasket = basket.find((p) => p.id === product.id).count === product.countOnShop;
+  const countFromBasket = basket.find((p) => p.id === product.vendorCode).count;
+  const disabledAddFromBasket = basket.find((p) => p.id === product.vendorCode).count === product.countOnShop;
 
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <Grid container spacing={7} alignItems='center'>
           <Grid item>
-            <ButtonBase className={classes.image}>
-              <img className={classes.img} alt="complex" src={product.imgs[0]}/>
-            </ButtonBase>
+            <Link className={classes.link} to={`/products/${product.vendorCode}`}>
+              <ButtonBase className={classes.image}>
+                <img className={classes.img} src={product.images[0]}/>
+              </ButtonBase>
+            </Link>
           </Grid>
           <Grid item xs container direction="column">
-            <Typography gutterBottom variant="subtitle1" style={{
-              fontFamily: 'Montserrat',
-              textAlign: 'left',
-            }}>
-              {product.name}
-            </Typography>
-            <Typography variant="body2" color="textSecondary" style={{
-              fontFamily: 'Montserrat',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              maxWidth: '400px',
-              textAlign: 'left',
-            }}>
-              {product.description}
-            </Typography>
+            <Link className={classes.link} to={`/products/${product.vendorCode}`}>
+              <Typography gutterBottom variant="subtitle1" style={{
+                fontFamily: 'Montserrat',
+                textAlign: 'left',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                maxWidth: '200px',
+              }}>
+                {product.name}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" style={{
+                fontFamily: 'Montserrat',
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                maxWidth: '230px',
+                textAlign: 'left',
+              }}>
+                {product.description}
+              </Typography>
+            </Link>
           </Grid>
           <Grid item>
-            <Typography className={'price'} style={{fontWeight: 800}} variant="subtitle1">{product.price * countFromBasket + ' ₽'}</Typography>
+            <Typography className={'price'} style={{fontWeight: 800,}} variant="subtitle1">{product.price + ' ₽'}</Typography>
           </Grid>
           <Grid item>
             <div>
-              <button onClick={decrementFromBasket}>-</button>
+              <button onClick={() => {decrementToBasket(product.vendorCode)}}>-</button>
               <span>{'кол-во: ' + countFromBasket}</span>
-              <button onClick={addFromBasket} disabled={disabledAddFromBasket} title={disabledAddFromBasket && 'К сожалению в магазине нет столько товара'}>+</button>
+              <button onClick={() => {addToBasket(product)}} disabled={disabledAddFromBasket}
+                      title={disabledAddFromBasket && 'К сожалению в магазине нет столько товара'}>+</button>
             </div>
           </Grid>
           <Grid item>
-            <DeleteIcon color="secondary" style={{ cursor: 'pointer'}} onClick={clearFromBasket}/>
+            <DeleteIcon color="secondary" style={{ cursor: 'pointer'}} onClick={() => {removeItem(product.vendorCode)}}/>
           </Grid>
         </Grid>
       </Paper>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
@@ -60,8 +60,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Home= (props) => {
   const classes = useStyles();
+
+  useEffect(() => {
+    // eslint-disable-next-line no-undef
+    VK.Widgets.Group("vk_groups", {mode: 0, width: '400', height: '400'}, 1);
+  }, [])
   return (
     <>
+      <div id="vk_groups"/>
       <div className={classes.mainBox}>
         <div className={classes.mainBoxShadow}>
           <div className={classes.mainBoxDiv}>

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import Carousel, { Dots } from '@brainhubeu/react-carousel';
+/*import Carousel, { Dots } from '@brainhubeu/react-carousel';
 import { slidesToShowPlugin } from "@brainhubeu/react-carousel";
-import '@brainhubeu/react-carousel/lib/style.css';
+import '@brainhubeu/react-carousel/lib/style.css';*/
 import {makeStyles} from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -50,7 +50,7 @@ const CarouselSmall = ({images}) => {
   return (
     <>
       <div>
-        <Carousel
+        {/*<Carousel
           value={value}
           onChange={onChange}
           plugins={[
@@ -68,7 +68,7 @@ const CarouselSmall = ({images}) => {
           <Content index={2} />
           <Content index={3} />
         </Carousel>
-        <Dots value={value} onChange={onChange} number={3} thumbnails={thumbnails}/>
+        <Dots value={value} onChange={onChange} number={3} thumbnails={thumbnails}/>*/}
 
 
         {/*<Carousel*/}

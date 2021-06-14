@@ -15,7 +15,6 @@ class MyCarousel extends React.Component {
     this.onchange = this.onchange.bind(this);
   }
 
-
   onchange(value) {
     this.setState({ value });
   }

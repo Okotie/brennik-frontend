@@ -1,27 +1,14 @@
 import React, {useState} from 'react';
-import Carousel from '@brainhubeu/react-carousel';
-import { slidesToShowPlugin } from "@brainhubeu/react-carousel";
-import '@brainhubeu/react-carousel/lib/style.css';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { Carousel } from 'react-responsive-carousel';
 
 const CarouselBig = ({images}) => {
 
   return (
     <>
       <div >
-        <Carousel
-          plugins={[
-            'centered',
-            'infinite',
-            'arrows',
-            {
-              resolve: slidesToShowPlugin,
-              options: {
-                numberOfSlides: 2,
-              },
-            },
-          ]}
-        >
-          {images.map(img => (<img style={{height:'370px'}} src={img}  alt={''}/>))}
+        <Carousel autoPlay interval="5000" transitionTime="700">
+          {images.map(img => (<div><img src={img}  alt={''}/></div>))}
         </Carousel>
       </div>
     </>

@@ -9,6 +9,11 @@ import React, {useEffect} from "react";
 import {BrowserRouter as Router, Route, Switch, useLocation} from "react-router-dom";
 import ScrollArrow from "./vue/ScrollArrow";
 import ShoppingBasket from "./vue/shop/ShoppingBasket";
+import News from "./vue/News";
+import {BasketProvider} from "./vue/cart/BasketProvider";
+import {AuthProvider} from "./vue/admin/AuthProvider";
+import {FiltersProvider} from "./vue/filters/FiltersProvider";
+import AuthFollowingLink from "./vue/admin/AuthFollowingLink";
 
 const ScrollToTop = () => {
   const {pathname}= useLocation();
@@ -24,20 +29,26 @@ function App() {
   return (
     <>
       <Router>
-        <ScrollToTop/>
-        <Header/>
-        <Switch>
+        <BasketProvider>
+        <AuthProvider>
+        <FiltersProvider>
+          <ScrollToTop/>
+          <Header/>
+          <Switch>
+            <Route path='/' component={Home} exact />
+            <Route path='/shop' component={ShopPage}/>
+            <Route path='/products/:vendorCode?' component={ProductPage}/>
+            <Route path='/news' component={News}/>
+            <Route path='/about' component={About}/>
+            <Route path='/contacts' component={Contact}/>
+            <Route path='/shoppingBasket' component={ShoppingBasket}/>
+            <AuthFollowingLink/>
 
-          <Route path='/' component={Home} exact />
-          <Route path='/shop' component={ShopPage}/>
-          <Route path='/products/:productId?' component={ProductPage}/>
-          <Route path='/about' component={About}/>
-          <Route path='/contacts' component={Contact}/>
-          <Route path='/shoppingBasket' component={ShoppingBasket}/>
-        </Switch>
-
-
-        <ScrollArrow/>
+          </Switch>
+          <ScrollArrow/>
+        </FiltersProvider>
+        </AuthProvider>
+        </BasketProvider>
       </Router>
     </>
   );

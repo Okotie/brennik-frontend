@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import '../index.css'
 import {Link} from "react-router-dom";
+import {BasketContext} from "./cart/BasketProvider";
 
 const useStyles = makeStyles(() => ({
   main: {
@@ -75,29 +76,10 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Product =({ id, name, price, flagNew, flagSoon, image })=> {
+const Product =({ vendorCode, name, price, flagNew, flagSoon, image })=> {
   const classes = useStyles();
-
-  const changeLocalStorageBasket = () => {
-
-    const basket = JSON.parse(
-      localStorage.getItem("basket") || "[]"
-    );
-
-    if (basket.filter(p => p.id === id).length > 0) {
-      basket.filter(p => p.id === id).map(p => (p.count += 1))
-    } else {
-      basket.push({
-        id: id,
-        count: 1,
-      });
-    }
-
-    localStorage.setItem('basket', JSON.stringify(basket));
-  };
-
+  const { addToBasket } = React.useContext(BasketContext);
   return (
-
     <div className={classes.main}>
       {Boolean(flagNew) && (
         <div className={classes.flagShadow}>
@@ -113,14 +95,15 @@ const Product =({ id, name, price, flagNew, flagSoon, image })=> {
       <div className={classes.containers}>
 
 
-        <Link className={classes.link} to={`/products/${id}`}>
-          <div className={classes.img} style={{backgroundImage: `url(${image})`}}/>
+        <Link className={classes.link} to={`/products/${vendorCode}`}>
+          <div className={classes.img} style={{backgroundImage:  `url(${image})`}}/>
           <div className={classes.info}>
             <div className={classes.title}>{name}</div>
             <div style={{fontSize: '15px', textAlign: 'right',}} className={'price'}>{price + ' ₽'}</div>
           </div>
         </Link>
-        <button style={{width: '100%'}} className={'buttonViolet'} onClick={changeLocalStorageBasket}>
+        <button style={{width: '100%'}} className={'buttonViolet'}
+                onClick={() => {addToBasket({ id: vendorCode, price: price })}}>
           в корзину
         </button>
 

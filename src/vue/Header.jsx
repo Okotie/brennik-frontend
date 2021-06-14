@@ -2,11 +2,13 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
+import {makeStyles, withStyles} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import '../index.css'
-import {BrowserRouter as Router, Link, Route} from "react-router-dom";
-import Shopping from '@material-ui/icons/ShoppingCart';
+import {Link} from "react-router-dom";
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import {Badge, IconButton} from "@material-ui/core";
+import {BasketContext} from "./cart/BasketProvider";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -37,8 +39,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = (props) => {
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}))(Badge);
+
+const Header = () => {
   const classes = useStyles();
+  const { count } = React.useContext(BasketContext);
+
   return (
     <>
       <CssBaseline/>
@@ -56,7 +69,7 @@ const Header = (props) => {
             <button className={classes.buttonMenu}>магазин</button>
           </Link>
 
-          <Link to={'/'}>
+          <Link to={'/news'}>
             <button className={classes.buttonMenu}>новости</button>
           </Link>
 
@@ -69,7 +82,11 @@ const Header = (props) => {
           </Link>
 
           <Link style={{margin: '0 0 0 auto'}} to={'/shoppingBasket'}>
-            <Shopping style={{color: 'black'}}/>
+            <IconButton aria-label="cart">
+              <StyledBadge badgeContent={count} color="secondary">
+                <ShoppingCartIcon />
+              </StyledBadge>
+            </IconButton>
           </Link>
         </Toolbar>
       </AppBar>
