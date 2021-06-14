@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import '../index.css';
 import Contact from './Contact';
-import CarouselBig from './CarouselBig'
+import 'react-image-gallery/styles/css/image-gallery.css';
+import ImageGallery from "react-image-gallery";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -45,6 +46,17 @@ const useStyles = makeStyles(() => ({
     margin: 'auto',
     display: 'block',
   },
+  image: {
+    objectFit: 'cover',
+    height: '400px',
+    overflow: 'hidden',
+  },
+  thumbnail: {
+    objectFit: 'cover',
+    height: '70px',
+    overflow: 'hidden',
+    width: '100%',
+  },
 }));
 
 const About = () => {
@@ -69,7 +81,16 @@ const About = () => {
             Мы всегда тебе рады и ждем твоих звонков, писем и сообщений.<br/>
             Добро пожаловать в "Лавку Орка"!<p/>
           </div>
-          <CarouselBig images={images}/>
+          <ImageGallery
+            showPlayButton={false}
+            showFullscreenButton={false}
+            items={images.map((img) => ({
+              original: img,
+              sizes: '100x100',
+              renderItem: () => <img alt="item" className={classes.image} src={img} />,
+              renderThumbInner: () => <img alt="thumb" className={classes.thumbnail} src={img} />,
+            }))}
+          />
         </div>
       </div>
       <Contact/>

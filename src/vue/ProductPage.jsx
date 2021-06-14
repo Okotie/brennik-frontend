@@ -4,8 +4,8 @@ import '../index.css';
 import Tabs from './Tabs'
 import {BasketContext} from "./cart/BasketProvider";
 import {getProductAPI} from "./api/api";
-import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { Carousel } from 'react-responsive-carousel';
+import ImageGallery from "react-image-gallery";
+
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -46,9 +46,10 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
   },
   img: {
+    objectFit: 'cover',
     minHeight: 'auto',
     maxWidth: 'auto',
-    height: '370PX',
+    height: '320PX',
     margin: 'auto',
     display: 'block',
   },
@@ -67,10 +68,11 @@ const useStyles = makeStyles((theme) => ({
     color: '#FAB73D',
     fontWeight: '800',
   },
-  imgg: {
-    height: '100%',
+  thumbnail: {
+    objectFit: 'cover',
+    height: '40px',
+    overflow: 'hidden',
     width: '100%',
-    backgroundSize: 'cover',
   },
 }));
 
@@ -107,13 +109,16 @@ const ProductPage = ({match}) => {
       <div className={classes.container}>
         <div className={classes.productPage}>
           <div className={classes.productCarouselImgs}>
-            {/*<img src={`/${product.images[0]}`} className={classes.imgg}/>*/}
-
-            <Carousel autoPlay interval="5000" transitionTime="700" style={{height: '130px'}}>
-              {product.images.map(img => (<div><img src={img}  alt={''}/></div>))}
-            </Carousel>
-            {/*<div className={classes.imgg} style={{backgroundImage:  `url(${product.images[0]})`}}/>*/}
-            {/*<MyCarousel images={product.images}/>*/}
+            <ImageGallery
+              showPlayButton={false}
+              showFullscreenButton={false}
+              items={product.images.map((img) => ({
+                original: img,
+                sizes: '100x100',
+                renderItem: () => <img alt="item" className={classes.img} src={img} />,
+                renderThumbInner: () => <img alt="thumb" className={classes.thumbnail} src={img} />,
+              }))}
+            />
           </div>
 
           <div className={classes.productBriefInfo}>

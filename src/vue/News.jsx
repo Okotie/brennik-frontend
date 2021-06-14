@@ -18,12 +18,12 @@ const News = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    // eslint-disable-next-line no-undef
-    VK.Widgets.Group("vk_groups", {mode: 0, width: '400', height: '400'}, 1);
-  }, [])
-
+// eslint-disable-next-line no-undef
+    VK.Widgets.Group('vk_groups', { mode: 0, width: '220', height: '400' }, 1);
+  }, []);
   return (
     <>
+      <div id="vk_groups"></div>
       <div className={classes.container}>
         <div className={classes.info}>
           <div className={classes.title}>Новости</div>
