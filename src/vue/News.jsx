@@ -17,26 +17,21 @@ const useStyles = makeStyles(() => ({
 const News = () => {
   const classes = useStyles();
 
+  let windowWidth = window.innerWidth;
+  let windowHeight = window.innerHeight;
+
   useEffect(() => {
-// eslint-disable-next-line no-undef
-    VK.Widgets.Group('vk_groups', { mode: 0, width: '220', height: '400' }, 1);
+    // eslint-disable-next-line no-undef
+    VK.Widgets.Group("vk_groups", {mode: 4, wide: 1, height: windowHeight*0.8, width: windowWidth*0.8, color3: '200038'}, 117577518);
+
   }, []);
   return (
     <>
-      <div id="vk_groups"></div>
       <div className={classes.container}>
         <div className={classes.info}>
           <div className={classes.title}>Новости</div>
           <div className={classes.text}>
             <div id="vk_groups"/>
-{/*
-            <script type="text/javascript" src="https://vk.com/js/api/openapi.js?169"/>
-            <div id="vk_groups"/>
-            <script type="text/javascript">
-              {`VK.Widgets.Group("vk_groups", {mode: 4, wide: 1, height: "400"}, 117577518);`}
-            </script>*/}
-
-
           </div>
         </div>
       </div>

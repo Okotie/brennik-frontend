@@ -3,6 +3,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import '../index.css'
 import {Link} from "react-router-dom";
 import {BasketContext} from "./cart/BasketProvider";
+import ButtonBuy from "./product/ButtonBuy";
 
 const useStyles = makeStyles(() => ({
   main: {
@@ -76,17 +77,17 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Product =({ vendorCode, name, price, flagNew, flagSoon, image })=> {
+const Product =({product})=> {
   const classes = useStyles();
-  const { addToBasket } = React.useContext(BasketContext);
+
   return (
     <div className={classes.main}>
-      {Boolean(flagNew) && (
+      {Boolean(product.flagNew) && (
         <div className={classes.flagShadow}>
           <div className={classes.flagNew}>New</div>
         </div>
       )}
-      {Boolean(flagSoon) && (
+      {Boolean(product.flagSoon) && (
         <div className={classes.flagShadow}>
           <div className={classes.flagSoon}>Soon</div>
         </div>
@@ -95,17 +96,14 @@ const Product =({ vendorCode, name, price, flagNew, flagSoon, image })=> {
       <div className={classes.containers}>
 
 
-        <Link className={classes.link} to={`/products/${vendorCode}`}>
-          <div className={classes.img} style={{backgroundImage:  `url(${image})`}}/>
+        <Link className={classes.link} to={`/products/${product.vendorCode}`}>
+          <div className={classes.img} style={{backgroundImage:  `url(${product.images[0]})`}}/>
           <div className={classes.info}>
-            <div className={classes.title}>{name}</div>
-            <div style={{fontSize: '15px', textAlign: 'right',}} className={'price'}>{price + ' ₽'}</div>
+            <div className={classes.title}>{product.name}</div>
+            <div style={{fontSize: '15px', textAlign: 'right',}} className={'price'}>{product.price + ' ₽'}</div>
           </div>
         </Link>
-        <button style={{width: '100%'}} className={'buttonViolet'}
-                onClick={() => {addToBasket({ id: vendorCode, price: price })}}>
-          в корзину
-        </button>
+        <ButtonBuy product={product}/>
 
       </div>
     </div>

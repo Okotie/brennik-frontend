@@ -1,6 +1,5 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {products} from "../../assets/mock/product";
 import Typography from "@material-ui/core/Typography";
 import BasketProduct from "./BasketProduct";
 import {BasketContext} from "../cart/BasketProvider";
@@ -16,7 +15,6 @@ const useStyles = makeStyles(() => ({
     fontSize: '17px',
     fontFamily: 'Raleway',
     alignItems: 'center',
-    border: '1px solid blue',
   },
   columns: {
     display: 'grid',
@@ -26,7 +24,6 @@ const useStyles = makeStyles(() => ({
     color: '#3b3b3b',
     fontFamily: 'Raleway',
     textAlign: 'center',
-    border: '1px solid red'
   },
 }));
 
@@ -38,7 +35,7 @@ const ShoppingBasket = () => {
 
   useEffect(() => {
     getProductAPI.getProductsByCodes(basket.map(b => (b.id)), setProducts);
-  }, []);
+  }, [basket]);
 
   return(
     <>
@@ -48,31 +45,36 @@ const ShoppingBasket = () => {
           корзина
         </Typography>
         <div className={classes.columns}>
-          <div style={{border: '1px solid red',}}>
+          <div>
             <Typography className={classes.title} variant="h5">
               добавленные товары:
             </Typography>
             <div>
-              {products.map((product) => (
-                <div >
-                  <div className={classes.title}>
-                    <BasketProduct
-                      product={product}
-                    />
+
+              {products.map(
+                (product) => (
+                  <div >
+                    <div className={classes.title}>
+                      <BasketProduct
+                        product={product}
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </div>
-          <div style={{border: '1px solid green',  }}>
+          <div>
             <Typography className={classes.title} variant="h6">
               ваш заказ:
               <Typography className={'price'} style={{fontWeight: 600}} variant="subtitle1">
                 {'количество товаров: ' + count  + ' шт.'}
               </Typography>
               <Typography className={'price'} style={{fontWeight: 800}} variant="subtitle1">
-                {price  + ' ₽'}
+                {'общая стоимость: ' + price  + ' ₽'}
               </Typography>
+
+              <button style={{width: '80%'}} className={'buttonGreen'}
+                      onClick={() => {}}>оформить заказ</button>
             </Typography>
           </div>
         </div>

@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 
 const instance = axios.create({
-  baseURL: 'http://192.168.1.68:8080/brennik/'
+  baseURL: 'http://192.168.1.67:8080/brennik/'
 });
 
 export const authAPI = {
@@ -53,15 +53,11 @@ export const getProductAPI = {
   },
   getProductsByCodes(codes, setProducts){
     return(
-      setProducts(
-        codes.map((code) => (
-          instance
-            .get(`product/search/vendorCode/${code}`)
-            .then(response => {
-              return response.data;
-            })
-        ))
-      )
+      instance
+        .post(`product/search/vendorCodes`, codes)
+        .then(response => {
+          setProducts(response.data);
+        })
     )
   },
   getProductByCode(match, setProduct){

@@ -59,16 +59,7 @@ const ShopPage = () => {
           {/*  </form>*/}
           {/*</div>*/}
           <div className={classes.products}>
-            {products.map(({ vendorCode, images, description,name, ...props }) => (
-              <Product
-                vendorCode={vendorCode}
-                name={name}
-                price={props.price}
-                flagNew={props.flagNew}
-                flagSoon={props.flagSoon}
-                image={images[0]}
-              />
-            ))}
+            {products.map((product) => (<Product product={product}/>))}
 
           </div>
         </div>

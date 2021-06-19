@@ -38,8 +38,9 @@ export default function BasketProduct({product}) {
   const classes = useStyles();
   const { basket, addToBasket, removeItem, decrementToBasket } = React.useContext(BasketContext);
 
-  const countFromBasket = basket.find((p) => p.id === product.vendorCode).count;
-  const disabledAddFromBasket = basket.find((p) => p.id === product.vendorCode).count === product.countOnShop;
+  const countFromBasket = basket.find((p) => p.id === product.vendorCode) != null &&
+    basket.find((p) => p.id === product.vendorCode).count;
+  const disabledAddFromBasket = countFromBasket >= product.count;
 
   return (
     <div className={classes.root}>
@@ -78,12 +79,16 @@ export default function BasketProduct({product}) {
           <Grid item>
             <Typography className={'price'} style={{fontWeight: 800,}} variant="subtitle1">{product.price + ' ₽'}</Typography>
           </Grid>
-          <Grid item>
+          <Grid item style={{width: '10em'}}>
             <div>
-              <button onClick={() => {decrementToBasket(product.vendorCode)}}>-</button>
-              <span>{'кол-во: ' + countFromBasket}</span>
-              <button onClick={() => {addToBasket(product)}} disabled={disabledAddFromBasket}
-                      title={disabledAddFromBasket && 'К сожалению в магазине нет столько товара'}>+</button>
+              <button style={{width: '30%'}} className={'buttonYellow'}
+                      onClick={() => {decrementToBasket(product.vendorCode)}}>-1</button>
+
+              <span style={{width: '40%', margin: '3px'}}>{countFromBasket + ' шт.'}</span>
+              <button style={{width: '30%'}} className={'buttonGreen'}
+                      onClick={() => {addToBasket({id: product.vendorCode, price: product.price})}}
+                      disabled={disabledAddFromBasket}
+                      title={disabledAddFromBasket && 'К сожалению больше нельзя добавить - в магазине нет столько товара'}>+1</button>
             </div>
           </Grid>
           <Grid item>

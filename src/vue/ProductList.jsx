@@ -29,7 +29,7 @@ const useStyles = makeStyles(() => ({
 
 export default function ProductList({type}) {
   const classes = useStyles();
-  const [product, setProduct] = useState([]);
+  const [products, setProducts] = useState([]);
 
   const title = (type) => {
     return(
@@ -38,8 +38,8 @@ export default function ProductList({type}) {
   }
 
   useEffect(() => {
-    ((type === 'NEW') && getProductAPI.getNewProduct(setProduct)) ||
-    ((type === 'SOON') && getProductAPI.getSoonProduct(setProduct));
+    ((type === 'NEW') && getProductAPI.getNewProduct(setProducts)) ||
+    ((type === 'SOON') && getProductAPI.getSoonProduct(setProducts));
   }, []);
 
 
@@ -50,13 +50,8 @@ export default function ProductList({type}) {
       <div className={classes.products}>
 
 
-        {product.map(({ vendorCode, images, description,name, ...props }) => (
-          <Product
-            vendorCode={vendorCode}
-            name={name}
-            price={props.price}
-            image={images[0]}
-          />
+        {products.map((product) => (
+          <Product product={product}/>
         ))}
 
       </div>

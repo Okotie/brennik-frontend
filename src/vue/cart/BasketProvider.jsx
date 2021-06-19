@@ -18,7 +18,7 @@ function BasketProvider({ children }) {
       let newCount = basket.reduce((cnt, item) => {return (cnt + item.count);}, 0);
       setCount(newCount);
 
-      let newPrice = basket.reduce((pric, item) => {return (pric + item.count * item.price);}, 0);
+      let newPrice = basket.reduce((price, item) => {return (price + item.count * item.price);}, 0);
       setPrice(newPrice);
     } else {
       setCount(0);
@@ -29,6 +29,7 @@ function BasketProvider({ children }) {
 
   const removeItem = (id) => {
     setBasket([...basket].filter(item => item.id !== id));
+    onUpdate();
   };
 
   const addToBasket = ({id, price}) => {

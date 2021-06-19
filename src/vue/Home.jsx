@@ -1,11 +1,11 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import shopImg from '../assets/img/shop.jpg'
 import '../index.css'
 import ProductList from './ProductList';
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   header: {
@@ -60,14 +60,15 @@ const useStyles = makeStyles((theme) => ({
 
 const Home= (props) => {
   const classes = useStyles();
+  const history = useHistory();
 
-  useEffect(() => {
-    // eslint-disable-next-line no-undef
-    VK.Widgets.Group("vk_groups", {mode: 0, width: '400', height: '400'}, 1);
-  }, [])
+  const routeToBasket = () => {
+    let path = 'shop';
+    history.push(path);
+  }
+
   return (
     <>
-      <div id="vk_groups"/>
       <div className={classes.mainBox}>
         <div className={classes.mainBoxShadow}>
           <div className={classes.mainBoxDiv}>
@@ -87,9 +88,8 @@ const Home= (props) => {
                   А Тут Нужен Какой-то текст но не очень большой
                 </div>
 
-                <Link to={'/shop'}>
-                <button style={{float: 'right', height: '2em'}} className={'buttonViolet'}>перейти в магазин</button>
-                </Link>
+                <button style={{float: 'right', fontSize: '16px'}}
+                        className={'buttonViolet'} onClick={routeToBasket}>перейти в магазин</button>
               </div>
             </div>
           </div>
