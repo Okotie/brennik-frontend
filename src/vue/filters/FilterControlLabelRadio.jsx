@@ -34,6 +34,7 @@ const CustomRadio = withStyles({
 
 const useStyles = makeStyles(() => ({
   tittle: {
+    fontSize: '14px',
     margin: '0px',
     fontFamily: 'Montserrat',
     fontWeight: '800',

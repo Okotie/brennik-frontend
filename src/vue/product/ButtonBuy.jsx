@@ -10,7 +10,7 @@ const ButtonBuy =({product})=> {
   const disabledAddFromBasket = fromBasket != null && (fromBasket.count >= product.count);
 
   const routeToBasket = () => {
-    let path = 'shoppingBasket';
+    let path = '../shoppingBasket';
     history.push(path);
   }
 

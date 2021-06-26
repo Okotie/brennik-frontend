@@ -20,6 +20,7 @@ const muiTheme = createMuiTheme({
 
 const useStyles = makeStyles(() => ({
   title: {
+    fontSize: '14px',
     margin: '0px',
     fontFamily: 'Montserrat',
     fontWeight: '800',
@@ -39,7 +40,7 @@ const useStyles = makeStyles(() => ({
     marginLeft: '10px',
     height: '2em',
     width: '70px',
-    fontSize: '16px',
+    fontSize: '14px',
   },
 }));
 
@@ -79,8 +80,8 @@ const FilterPrice =({filter})=> {
           />
         </ThemeProvider>
         <div className={classes.priceInterval}>
-          <label style={{fontFamily: 'Montserrat',}}>От<input className={classes.priceIntervalInput} value={Math.min(...prices)}/></label>
-          <label style={{fontFamily: 'Montserrat',}}>До<input className={classes.priceIntervalInput} value={Math.max(...prices)}/></label>
+          <label style={{fontFamily: 'Montserrat', fontSize: '14px',}}>От<input className={classes.priceIntervalInput} value={Math.min(...prices)}/></label>
+          <label style={{fontFamily: 'Montserrat', fontSize: '14px',}}>До<input className={classes.priceIntervalInput} value={Math.max(...prices)}/></label>
         </div>
       </div>
       <hr/>

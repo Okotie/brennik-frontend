@@ -14,6 +14,7 @@ import {BasketProvider} from "./vue/cart/BasketProvider";
 import {AuthProvider} from "./vue/admin/AuthProvider";
 import {FiltersProvider} from "./vue/filters/FiltersProvider";
 import AuthFollowingLink from "./vue/admin/AuthFollowingLink";
+import {OrderProvider} from "./vue/shop/OrderProvider";
 
 const ScrollToTop = () => {
   const {pathname}= useLocation();
@@ -32,6 +33,7 @@ function App() {
         <BasketProvider>
         <AuthProvider>
         <FiltersProvider>
+        <OrderProvider>
           <ScrollToTop/>
           <Header/>
           <Switch>
@@ -46,6 +48,7 @@ function App() {
 
           </Switch>
           <ScrollArrow/>
+        </OrderProvider>
         </FiltersProvider>
         </AuthProvider>
         </BasketProvider>

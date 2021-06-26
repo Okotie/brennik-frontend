@@ -60,7 +60,7 @@ export const getProductAPI = {
         })
     )
   },
-  getProductByCode(match, setProduct){
+  getProductByMatch(match, setProduct){
     return(
       instance
         .get(`product/search/vendorCode/${match.params.vendorCode}`)
@@ -101,20 +101,11 @@ export const getProductAPI = {
 export const getCategoryAPI = {
   getAllCategories(setCategories){
     return(
-      instance
-        .get(`category/search/all`)
+      instance.get(`category/search/all`)
         .then(response => {
-          setCategories(response.data);
-        })
-    )
-  },
-  getAllCategoriesT(){
-    return(
-      instance
-        .get(`category/search/all`)
-        .then(response => {
-          console.log('response.data: ' + JSON.stringify(response.data));
-          return response.data;
+          console.log("KEK"+JSON.stringify(response.data))
+          return response.data || [];
+          //setCategories(response.data);
         })
     )
   },
@@ -127,6 +118,22 @@ export const filtersAPI = {
         .then(response => {
           setFilters(response.data.filters);
         })
+    )
+  }
+}
+
+export const formForAPI = {
+  sendEmail(formdata){
+    console.log("sendEmail formdata " + JSON.stringify(formdata))
+    return(
+      axios
+        .post('https://formfor.site/send/3wuj8U4Cn31aNjpdwEhSsQALxVOsSz', formdata, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Access-Control-Allow-Credentials': true,
+          },
+        })
+        .then((response) => {})
     )
   }
 }

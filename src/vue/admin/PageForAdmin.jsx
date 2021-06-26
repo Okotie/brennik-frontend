@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {createProductAPI, getCategoryAPI, getProductAPI} from "../api/api";
+import {createProductAPI, filtersAPI, getCategoryAPI, getProductAPI} from "../api/api";
 import {AuthContext} from "./AuthProvider";
 import {Chip} from "@material-ui/core";
 
@@ -17,14 +17,17 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const categoriesReq = getCategoryAPI.getAllCategoriesT();
-
 const PageFromAdmin = () => {
   const classes = useStyles();
   const [request, setRequest] = useState({vendorCode: '', name: '', description: '', categories: [], images: []});
   const [categories, setCategories] = useState([]);
   const { logout } = React.useContext(AuthContext);
+  console.log("categories "+JSON.stringify(categories))
 
+  useEffect(() => {
+    setCategories(getCategoryAPI.getAllCategories("() => ()"));
+    console.log("useEffect categories "+JSON.stringify(categories))
+  }, []);
 
   const handleClick = () => {
     createProductAPI.createProduct(request);
@@ -102,7 +105,7 @@ const PageFromAdmin = () => {
         </div>
         <div>
           <p>категории</p>
-          {categoriesReq.map(c => (
+          {/*{categories.map(c => (
             (<Chip
               variant="outlined"
               size="small"
@@ -110,7 +113,7 @@ const PageFromAdmin = () => {
               onDelete={changeCategories(c)}
               color="primary"
             />)
-          ))}
+          ))}*/}
           {/*<input type={'text'} value={request.categories} onChange={changeCategories}/>*/}
         </div>
         <div>

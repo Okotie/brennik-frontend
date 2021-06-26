@@ -20,6 +20,7 @@ const CustomCheckbox = withStyles({
 const useStyles = makeStyles(() => ({
   title: {
     margin: '0px',
+    fontSize: '14px',
     fontFamily: 'Montserrat',
     fontWeight: '800',
     color: '#3b3b3b',
@@ -54,7 +55,7 @@ const FilterControlLabel =({filter})=> {
     <>
       <div>
         <div className={classes.title}>{filter.name}</div>
-        <FormGroup column>
+        <FormGroup column  style={{fontSize: '14px',}}>
           {filter.data.values.map(
             (d) =>  (
               <FormControlLabel

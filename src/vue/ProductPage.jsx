@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import '../index.css';
 import Tabs from './Tabs'
-import {BasketContext} from "./cart/BasketProvider";
 import {getProductAPI} from "./api/api";
 import ImageGallery from "react-image-gallery";
+import ButtonBuy from "./product/ButtonBuy";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -78,7 +78,6 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductPage = ({match}) => {
   const classes = useStyles();
-  const { addToBasket } = React.useContext(BasketContext);
   const [product, setProduct] = useState({
     vendorCode:0,
     name:'',
@@ -92,7 +91,7 @@ const ProductPage = ({match}) => {
   });
 
   useEffect(() => {
-    getProductAPI.getProductByCode(match, setProduct);
+    getProductAPI.getProductByMatch(match, setProduct);
   }, []);
 
   const tabContent = (description) => (
@@ -134,10 +133,10 @@ const ProductPage = ({match}) => {
             </div>
             <div className={classes.productCountInfo}>на складе - |||</div>
             <div style={{fontSize: '22px', margin: '10px',}} className={'price'}>{product.price + ' ₽'}</div>
-            <button className={'buttonViolet'} style={{margin: '10px', width: '10em'}}
-                    onClick={() => {addToBasket({id: product.vendorCode, price: product.price})}}>
-              в корзину
-            </button>
+            <div style={{margin: '10px', width: '10em'}}>
+              <ButtonBuy product={product}/>
+            </div>
+
           </div>
 
           <div className={classes.productFullInfo}>

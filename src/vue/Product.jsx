@@ -10,12 +10,13 @@ const useStyles = makeStyles(() => ({
     margin: '10px',
     width: '200px', 
     height: '100%',
-    boxShadow: '0 0 3px rgba(0,0,0,0.4)',
+    boxShadow: '0 0 4px rgba(0,0,0,0.6)',
+    borderRadius: '5px',
     backgroundColor: 'rgba(255,255,255,1)',
     cursor: 'pointer',
     '&:hover' :{
-      boxShadow: '0 0 8px rgba(0,0,0,0.6)',
-      transform: 'scale(1.05)',
+      boxShadow: '0 0 6px rgba(0,0,0,0.8)',
+      transform: 'scale(1.002)',
     },
     '&:active' :{
       transform: 'translate(1px, 1px)',

@@ -55,7 +55,10 @@ const Contact = () => {
     <>
       <div className={classes.container}>
         <div>
-          <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Ab11be14b8b36e840b24fd6a44203fb5ea1bbf761a5c6c706d97c21bf3badb303&amp;source=constructor" width="700" height="600" frameborder="0"/>
+          <iframe
+            src="https://yandex.ru/map-widget/v1/?um=constructor%3Aed895cc642d7b97e60033e3acee0a264c9d3b820e73a4e0581ccee7736608da0&amp;source=constructor"
+            width="520" height="500" frameBorder="0"/>
+          {/*<iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Ab11be14b8b36e840b24fd6a44203fb5ea1bbf761a5c6c706d97c21bf3badb303&amp;source=constructor" width="700" height="600" frameborder="0"/>*/}
         </div>
         <div style={{marginLeft: '10px'}}>
           <div className={classes.title}>Как нас найти</div>

@@ -20,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
     height: '100%',
     minWidth: '20%',
     margin: '10px',
+    padding: '20px',
+    borderRadius: '5px',
+    boxShadow: '0 0 3px rgba(0,0,0,0.4)',
+    backgroundColor: 'rgba(255,255,255,1)',
   },
   main: {
   },
