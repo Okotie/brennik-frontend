@@ -29,7 +29,6 @@ const News = () => {
     <>
       <div className={classes.container}>
         <div className={classes.info}>
-          <div className={classes.title}>Новости</div>
           <div className={classes.text}>
             <div id="vk_groups"/>
           </div>

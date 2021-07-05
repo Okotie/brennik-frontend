@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 
 
 const instance = axios.create({
-  baseURL: 'http://192.168.1.67:8080/brennik/'
+  baseURL: 'http://45.147.179.34:8080/brennik/'
 });
 
 export const authAPI = {
