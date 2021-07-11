@@ -16,6 +16,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+let timeOut = 0;
+
 const LoginForAdmin = () => {
   const classes = useStyles();
   const [request, setRequest] = useState({username: '', password: ''});
@@ -25,7 +27,13 @@ const LoginForAdmin = () => {
 
   const handleClick = () => {
     login(request);
-    logged ? setError(false) : setError(true);
+
+    if (timeOut) clearTimeout(timeOut);
+
+    timeOut = setTimeout(() => (
+      logged ? setError(false) : setError(true)
+    ), 1000);
+
     console.log('login: ' + logged);
   };
 
