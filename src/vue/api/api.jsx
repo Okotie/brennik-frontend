@@ -41,15 +41,6 @@ export const createProductAPI = {
 }
 
 export const getProductAPI = {
-  getAllProduct(setProduct){
-    return(
-      instance
-        .get(`product/search/all`)
-        .then(response => {
-          setProduct(response.data);
-        })
-    )
-  },
   getProductsByCodes(codes, setProducts){
     return(
       instance
@@ -68,12 +59,13 @@ export const getProductAPI = {
         })
     )
   },
-  getProductByFilters(filters, setProduct){
+  getProductByFilters(filters, page, setProduct, setPage){
     return(
       instance
-        .post(`product/search`, {filters})
+        .post(`product/search`, {filters, page})
         .then(response => {
-          setProduct(response.data);
+          setProduct(response.data.content);
+          setPage({numberPage: response.data.number + 1, totalPages: response.data.totalPages})
         })
     )
   },
@@ -82,7 +74,7 @@ export const getProductAPI = {
       instance
         .post(`product/search`, {filters: [{id: "flagNew", data: {value: true}}]})
         .then(response => {
-          setProduct(response.data);
+          setProduct(response.data.content);
         })
     )
   },
@@ -91,7 +83,7 @@ export const getProductAPI = {
       instance
         .post(`product/search`, {filters: [{id: "flagSoon", data: {value: true}}]})
         .then(response => {
-          setProduct(response.data);
+          setProduct(response.data.content);
         })
     )
   }

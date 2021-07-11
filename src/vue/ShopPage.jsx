@@ -5,6 +5,7 @@ import Product from "./Product";
 import {getProductAPI} from "./api/api";
 import {FiltersContext} from "./filters/FiltersProvider";
 import Filters from "./filters/Filters";
+import Pagination from "@material-ui/lab/Pagination";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -34,14 +35,21 @@ const useStyles = makeStyles((theme) => ({
 
 const ShopPage = () => {
   const classes = useStyles();
-
   const { filters, filtersToBackend } = React.useContext(FiltersContext);
-
   const [products, setProducts] = useState([]);
+  const [page, setPage] = useState({});
+  const [pageNumber, setPageNumber] = React.useState(0);
 
   useEffect(() => {
-    getProductAPI.getProductByFilters(filtersToBackend, setProducts);
+    getProductAPI.getProductByFilters(filtersToBackend, pageNumber - 1, setProducts, setPage);
+    setPageNumber(page.numberPage)
   }, [filtersToBackend]);
+
+  const handleChange = (event, value) => {
+    getProductAPI.getProductByFilters(filtersToBackend, value - 1, setProducts, setPage);
+    setPageNumber(value);
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  };
 
   return (
     <>
@@ -51,19 +59,12 @@ const ShopPage = () => {
         </div>
 
         <div className={classes.main}>
-          {/*<div className={classes.navTop}>*/}
-          {/*  <form className={classes.search} style={{maxWidth: '400px',}}>*/}
-          {/*    <input className={classes.input} type="text" placeholder="Поиск..."/>*/}
-          {/*    <button type="submit"  className={classes.inputButton}>*/}
-          {/*      <i className={'fas fa-search'}/>*/}
-          {/*      <SearchIcon style={{verticalAlign: 'middle',}}/>*/}
-          {/*    </button>*/}
-          {/*  </form>*/}
-          {/*</div>*/}
+          <Pagination count={page.totalPages} page={page.numberPage ?? ""} onChange={handleChange} />
           <div className={classes.products}>
             {products.map((product) => (<Product product={product}/>))}
 
           </div>
+          <Pagination count={page.totalPages} page={page.numberPage ?? ""} onChange={handleChange} />
         </div>
       </div>
     </>
