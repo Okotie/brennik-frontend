@@ -6,6 +6,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import CheckBoxOutline from "@material-ui/icons/CheckBoxOutlineBlank";
 import Done from "@material-ui/icons/Done";
 import Checkbox from "@material-ui/core/Checkbox";
+import Typography from "@material-ui/core/Typography";
 
 const CustomCheckbox = withStyles({
   root: {
@@ -36,17 +37,15 @@ const FilterCheckbox =({filter})=> {
 
   return (
     <>
-      <div>
+      <div className={'filterBox'}>
         <FormControlLabel
-          label={filter.name}
-          labelPlacement="start"
+          label={<Typography style={{fontFamily: 'Roboto'}}>{filter.name}</Typography>}
           control={
             <CustomCheckbox onChange={handleChangeDeveloper} icon={<CheckBoxOutline />} checkedIcon={<Done />}
                             value={filter.value}/>
           }
         />
       </div>
-      <hr/>
     </>
   );
 }

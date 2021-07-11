@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => ({
     marginRight: '10%',
     marginBottom: '2%',
     fontSize: '17px',
-    fontFamily: 'Raleway',
+    fontFamily: 'Roboto',
     alignItems: 'center',
   },
   columns: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles(() => ({
   },
   title: {
     color: '#3b3b3b',
-    fontFamily: 'Raleway',
+    fontFamily: 'Roboto',
     textAlign: 'center',
   },
 }));
@@ -190,10 +190,10 @@ const ShoppingBasket = () => {
           <div>
             <Typography className={classes.title} variant="h6">
               ваш заказ:
-              <Typography className={'price'} style={{fontWeight: 600}} variant="subtitle1">
+              <Typography variant="subtitle1">
                 {'количество товаров: ' + count  + ' шт.'}
               </Typography>
-              <Typography className={'price'} style={{fontWeight: 800}} variant="subtitle1">
+              <Typography variant="subtitle1">
                 {'общая стоимость: ' + price  + ' ₽'}
               </Typography>
 
@@ -256,7 +256,7 @@ const ShoppingBasket = () => {
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <button onClick={handleClose} style={{fontSize: '16px'}} className={'buttonGrey'}>
+                <button onClick={handleClose} style={{fontSize: '14px'}} className={'buttonGrey'}>
                   Продолжить покупки
                 </button>
                 <button style={{fontSize: '16px'}} className={'buttonGreen'} onClick={handleValidation}>
@@ -267,15 +267,6 @@ const ShoppingBasket = () => {
 
           </div>
         </div>
-        <form
-          method="POST"
-          action="https://formfor.site/send/THdULQqnJmxQW41Pe2VALvwsdTdPdm"
-        >
-          <input type="email" name="email"/>
-          <input name="name"/>
-          <input name="commentary"/>
-          <button type="submit">Send</button>
-        </form>
       </div>
       }
       {!basket.length > 0 &&

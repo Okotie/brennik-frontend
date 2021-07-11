@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
   },
   button: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Roboto',
     padding: '10px',
     fontSize: '25px',
     fontWeight: '800',

@@ -42,7 +42,6 @@ export default function ProductList({type}) {
     ((type === 'SOON') && getProductAPI.getSoonProduct(setProducts));
   }, []);
 
-
   return (
     <div className={classes.main}>
       <Typography className={classes.title} variant="h4">{title(type)}</Typography>

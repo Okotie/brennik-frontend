@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10px',
   },
   productTitle: {
-    fontFamily: 'Montserrat',
+    fontFamily: 'Roboto',
     margin: '10px',
     fontSize: '25px',
     fontWeight: '800',
@@ -133,7 +133,7 @@ const ProductPage = ({match}) => {
             </div>
             <div className={classes.productCountInfo}>на складе - |||</div>
             <div style={{fontSize: '22px', margin: '10px',}} className={'price'}>{product.price + ' ₽'}</div>
-            <div style={{margin: '10px', width: '10em'}}>
+            <div style={{margin: '10px', width: '15em'}}>
               <ButtonBuy product={product}/>
             </div>
 

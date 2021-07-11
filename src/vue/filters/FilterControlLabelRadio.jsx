@@ -33,16 +33,6 @@ const CustomRadio = withStyles({
 
 
 const useStyles = makeStyles(() => ({
-  tittle: {
-    fontSize: '14px',
-    margin: '0px',
-    fontFamily: 'Montserrat',
-    fontWeight: '800',
-    color: '#3b3b3b',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  },
 }));
 
 const FilterControlLabel =({filter})=> {
@@ -59,8 +49,8 @@ const FilterControlLabel =({filter})=> {
 
   return (
     <>
-      <div>
-        <div className={classes.title}>{filter.name}</div>
+      <div className={'filterBox'}>
+        <div className={'filterTitle'}>{filter.name}</div>
         <FormControl column theme={muiTheme}>
           <RadioGroup value={type} onChange={handleChangeType}>
             {filter.values.map(

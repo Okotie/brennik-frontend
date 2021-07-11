@@ -19,34 +19,18 @@ const muiTheme = createMuiTheme({
 });
 
 const useStyles = makeStyles(() => ({
-  title: {
-    fontSize: '14px',
-    margin: '0px',
-    fontFamily: 'Montserrat',
-    fontWeight: '800',
-    color: '#3b3b3b',
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  },
-  priceSlider: {
-  },
   priceInterval: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'space-between',
   },
-  priceIntervalInput: {
-    marginLeft: '10px',
-    height: '2em',
-    width: '70px',
-    fontSize: '14px',
-  },
 }));
+
+let timeOut = 0;
 
 const FilterPrice =({filter})=> {
   const classes = useStyles();
-  const { changeFilter, filtersToBackend } = React.useContext(FiltersContext);
+  const { changeFilter } = React.useContext(FiltersContext);
 
   const priceMaxMin = {
     min: filter.data.values[0],
@@ -57,7 +41,11 @@ const FilterPrice =({filter})=> {
 
   React.useEffect(
     ()=>{
-      changeFilter({...filter, data: {values: prices}})
+      if (timeOut) clearTimeout(timeOut);
+
+      timeOut = setTimeout(() => (
+        changeFilter({...filter, data: {values: prices}})
+      ), 2000);
     }, [prices]
   );
 
@@ -67,24 +55,29 @@ const FilterPrice =({filter})=> {
 
   return (
     <>
-      <div className={classes.priceSlider}>
-        <div className={classes.title}>{filter.name}, ₽</div>
+      <div className={'filterBox'}>
+        <div className={'filterTitle'}>{filter.name}</div>
         <ThemeProvider theme={muiTheme}>
           <Slider
             value={prices}
             min={priceMaxMin.min}
-            step={filter.data.values[1]/10}
+            step={1}
             max={priceMaxMin.max}
             onChange={handleChangePrice}
             aria-labelledby="range-slider"
           />
         </ThemeProvider>
         <div className={classes.priceInterval}>
-          <label style={{fontFamily: 'Montserrat', fontSize: '14px',}}>От<input className={classes.priceIntervalInput} value={Math.min(...prices)}/></label>
-          <label style={{fontFamily: 'Montserrat', fontSize: '14px',}}>До<input className={classes.priceIntervalInput} value={Math.max(...prices)}/></label>
+          <label style={{fontFamily: 'Roboto', fontSize: '14px',}}>
+            {'от ' + Math.min(...prices)}
+            {/*<input className={'filterInputPrice'} onChange={changePriceMin} value={pricesInput[0]}/>*/}
+          </label>
+          <label style={{fontFamily: 'Roboto', fontSize: '14px',}}>
+            {'до ' + Math.max(...prices)}
+            {/*<input className={'filterInputPrice'} onChange={changePriceMax} value={pricesInput[1]}/>*/}
+          </label>
         </div>
       </div>
-      <hr/>
     </>
   );
 }

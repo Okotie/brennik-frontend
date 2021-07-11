@@ -9,7 +9,6 @@ import FilterCheckbox from "./FilterCheckbox";
 const Filters =({filters})=> {
   return (
     <>
-      <hr/>
       {filters.map((f) => (
         ((f.type === "text") && <FilterText filter={f}/>) ||
         ((f.type === "priceSlider") && <FilterPrice filter={f}/>) ||

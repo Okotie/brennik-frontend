@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import '../index.css';
 import Product from "./Product";
-import SearchIcon from '@material-ui/icons/Search';
 import {getProductAPI} from "./api/api";
 import {FiltersContext} from "./filters/FiltersProvider";
 import Filters from "./filters/Filters";
@@ -14,15 +13,14 @@ const useStyles = makeStyles((theme) => ({
     marginRight: '10%',
     display: '-webkit-flex',
     fontSize: '17px',
-    fontFamily: 'Raleway',
+    fontFamily: 'Roboto',
   },
   sidebar: {
     height: '100%',
     minWidth: '20%',
     margin: '10px',
-    padding: '20px',
     borderRadius: '5px',
-    boxShadow: '0 0 3px rgba(0,0,0,0.4)',
+    boxShadow: '0 0 3px rgba(0,0,0,0.2)',
     backgroundColor: 'rgba(255,255,255,1)',
   },
   main: {

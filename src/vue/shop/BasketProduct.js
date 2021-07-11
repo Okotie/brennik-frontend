@@ -56,7 +56,7 @@ export default function BasketProduct({product}) {
           <Grid item xs container direction="column">
             <Link className={classes.link} to={`/products/${product.vendorCode}`}>
               <Typography gutterBottom variant="subtitle1" style={{
-                fontFamily: 'Montserrat',
+                fontFamily: 'Roboto',
                 textAlign: 'left',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -66,7 +66,7 @@ export default function BasketProduct({product}) {
                 {product.name}
               </Typography>
               <Typography variant="body2" color="textSecondary" style={{
-                fontFamily: 'Montserrat',
+                fontFamily: 'Roboto',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -78,15 +78,17 @@ export default function BasketProduct({product}) {
             </Link>
           </Grid>
           <Grid item>
-            <Typography className={'price'} style={{fontWeight: 800,}} variant="subtitle1">{product.price + ' ₽'}</Typography>
+            <Typography className={'price'} variant="subtitle1">{product.price + ' ₽'}</Typography>
           </Grid>
           <Grid item style={{width: '10em'}}>
             <div>
               <button style={{width: '30%'}} className={'buttonYellow'}
                       onClick={() => {decrementToBasket(product.vendorCode)}}>-1</button>
 
-              <span style={{width: '40%', margin: '3px'}}>{countFromBasket + ' шт.'}</span>
-              <button style={{width: '30%'}} className={'buttonGreen'}
+              <span style={{width: '40%', margin: '4px', backgroundColor: 'white', color: 'black'}} className={'buttonViolet'}>
+                {countFromBasket + ' шт.'}
+              </span>
+              <button style={{width: '30%'}}  className={'buttonGreen'}
                       onClick={() => {addToBasket({id: product.vendorCode, price: product.price})}}
                       disabled={disabledAddFromBasket}
                       title={disabledAddFromBasket && 'К сожалению больше нельзя добавить - в магазине нет столько товара'}>+1</button>

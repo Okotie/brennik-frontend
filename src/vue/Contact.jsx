@@ -19,14 +19,14 @@ const useStyles = makeStyles(() => ({
   title: {
     margin: '10px',
     marginBottom: '10px',
-    fontFamily: 'Montserrat',
+    fontFamily: 'Roboto',
     fontSize: '25px',
     fontWeight: '800',
     color: '#3b3b3b',
   },
   text: {
-    fontFamily: 'Montserrat',
-    fontWeight: '400',
+    fontFamily: 'Roboto',
+    fontWeight: '300',
     margin: '10px',
     color: '#131313',
     verticalAlign: 'middle',

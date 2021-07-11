@@ -1,8 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import '../index.css'
 import {Link} from "react-router-dom";
-import {BasketContext} from "./cart/BasketProvider";
 import ButtonBuy from "./product/ButtonBuy";
 
 const useStyles = makeStyles(() => ({
@@ -10,13 +9,12 @@ const useStyles = makeStyles(() => ({
     margin: '10px',
     width: '200px', 
     height: '100%',
-    boxShadow: '0 0 4px rgba(0,0,0,0.6)',
+    boxShadow: '0 0 3px rgba(0,0,0,0.2)',
     borderRadius: '5px',
     backgroundColor: 'rgba(255,255,255,1)',
     cursor: 'pointer',
     '&:hover' :{
-      boxShadow: '0 0 6px rgba(0,0,0,0.8)',
-      transform: 'scale(1.002)',
+      transform: 'scale(1.012)',
     },
     '&:active' :{
       transform: 'translate(1px, 1px)',
@@ -43,7 +41,7 @@ const useStyles = makeStyles(() => ({
   },
   title: {
     margin: '0px',
-    fontFamily: 'Montserrat',
+    fontFamily: 'Roboto',
     fontSize: '14px',
     fontWeight: '400',
     color: 'black',
@@ -52,7 +50,8 @@ const useStyles = makeStyles(() => ({
     textOverflow: 'ellipsis',
   },
   flagNew: {
-    fontFamily: 'Bellota Text',
+    fontFamily: 'Roboto',
+    fontWeight: '400',
     height: '30px',
     marginRight: '10px',
     padding: '5px',
@@ -63,10 +62,11 @@ const useStyles = makeStyles(() => ({
     fontSize: '10px',
   },
   flagShadow: {
-    filter: 'drop-shadow(2px 2px 1px rgba(0,0,0,0.8))',
+    filter: 'drop-shadow(2px 2px 1px rgba(0,0,0,0.5))',
   },
   flagSoon: {
-    fontFamily: 'Bellota Text',
+    fontFamily: 'Roboto',
+    fontWeight: '400',
     height: '30px',
     marginRight: '10px',
     padding: '5px',
@@ -101,7 +101,7 @@ const Product =({product})=> {
           <div className={classes.img} style={{backgroundImage:  `url(${product.images[0]})`}}/>
           <div className={classes.info}>
             <div className={classes.title}>{product.name}</div>
-            <div style={{fontSize: '15px', textAlign: 'right',}} className={'price'}>{product.price + ' ₽'}</div>
+            <div style={{textAlign: 'right',}} className={'price'}>{product.price + ' ₽'}</div>
           </div>
         </Link>
         <ButtonBuy product={product}/>

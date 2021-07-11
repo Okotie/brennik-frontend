@@ -49,7 +49,7 @@ export default function OrderProduct({product, count}) {
           <Grid item xs container direction="column">
             <Link className={classes.link} to={`/products/${product.vendorCode}`}>
               <Typography gutterBottom variant="subtitle1" style={{
-                fontFamily: 'Montserrat',
+                fontFamily: 'Roboto',
                 textAlign: 'left',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
@@ -60,7 +60,7 @@ export default function OrderProduct({product, count}) {
                 {product.name}
               </Typography>
               <Typography variant="body2" color="textSecondary" style={{
-                fontFamily: 'Montserrat',
+                fontFamily: 'Roboto',
                 whiteSpace: 'nowrap',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',

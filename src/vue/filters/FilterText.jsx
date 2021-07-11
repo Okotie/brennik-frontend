@@ -1,23 +1,20 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import '../../index.css'
-import SearchIcon from "@material-ui/icons/Search";
 import {FiltersContext} from "./FiltersProvider";
 
 const useStyles = makeStyles(() => ({
-  search: {
-  },
   input: {
-    fontFamily: 'Montserrat',
-    paddingLeft: '10px',
+    fontFamily: 'Roboto',
     verticalAlign: 'middle',
-    width: '90%',
+    width: '100%',
     height: '2em',
     fontSize: '14px',
     marginTop: 'auto',
     border:'none',
     outline: 'none',
-    borderRight:'1px solid #727272',
+    marginBottom: '5px',
+    borderBottom: '1px solid #c4c4c4',
   },
   inputButton: {
     float: 'right',
@@ -58,26 +55,17 @@ const FilterText =({filter})=> {
     }, [text]
   );
 
-  const handleChange = () => {
-    (text.length > 0) ?
-      (changeFilter({...filter, data: {value: text}})) :
-      (deleteFilterById(filter.id));
-  };
-
   const changeText = (event) => {
     setText(event.target.value);
   };
 
   return (
     <>
-      <form className={classes.search} style={{maxWidth: '400px',}} onSubmit={(e) => {e.preventDefault()}}>
-        <input className={classes.input} value={text} type="text" placeholder={filter.name+"..."} onChange={changeText} />
-        {/*<button type="submit" className={classes.inputButton} onClick={handleChange}>
-          <i className={'fas fa-search'}/>
-          <SearchIcon style={{verticalAlign: 'middle',}}/>
-        </button>*/}
+      <form className={'filterBox'} style={{maxWidth: '400px',}} onSubmit={(e) => {e.preventDefault()}}>
+        <div className={'filterTitle'}>поиск по названию</div>
+        <input className={classes.input} value={text} type="text" placeholder={"введите "+filter.name+"..."} onChange={changeText} />
       </form>
-      <hr/>
+
     </>
   );
 }
