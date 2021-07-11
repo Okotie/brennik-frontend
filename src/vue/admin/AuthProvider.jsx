@@ -14,9 +14,9 @@ function AuthProvider({ children }) {
   );
 
   const login = (request) => {
-    authAPI.login(request.username, request.password);
-    //TODO:??????????????
-    setLogged(true);
+    authAPI.login(request.username, request.password)
+      .then(() => {setLogged(true);})
+      .catch(() => {setLogged(false);});
   };
 
   const logout = () => {

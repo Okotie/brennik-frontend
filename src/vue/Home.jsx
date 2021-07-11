@@ -5,7 +5,7 @@ import Container from '@material-ui/core/Container';
 import shopImg from '../assets/img/shop.jpg'
 import '../index.css'
 import ProductList from './ProductList';
-import {Link, useHistory} from "react-router-dom";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   header: {

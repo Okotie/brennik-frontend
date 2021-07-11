@@ -15,7 +15,6 @@ export const authAPI = {
           localStorage.setItem('jwt', token);
         })
         .catch((err) => {
-          alert('Введен неверный логин или пароль')
           console.log('LOGIN ERROR: ' + err);
           throw err;
         })
@@ -103,9 +102,7 @@ export const getCategoryAPI = {
     return(
       instance.get(`category/search/all`)
         .then(response => {
-          console.log("KEK"+JSON.stringify(response.data))
-          return response.data || [];
-          //setCategories(response.data);
+          setCategories(response.data);
         })
     )
   },
@@ -124,7 +121,6 @@ export const filtersAPI = {
 
 export const formForAPI = {
   sendEmail(formdata){
-    console.log("sendEmail formdata " + JSON.stringify(formdata))
     return(
       axios
         .post('https://formfor.site/send/3wuj8U4Cn31aNjpdwEhSsQALxVOsSz', formdata, {

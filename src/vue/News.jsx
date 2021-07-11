@@ -1,8 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import '../index.css';
-//import VK, {Group, Subscribe} from "react-vk";
-import {Helmet} from "react-helmet";
 
 const useStyles = makeStyles(() => ({
   container: {

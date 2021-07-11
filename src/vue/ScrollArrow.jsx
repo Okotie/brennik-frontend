@@ -50,7 +50,7 @@ const ScrollArrow = () =>{
 
   return (
     <div>
-      <div className={classes.scrollTop} onClick={scrollTop} style={{display: showScroll ? 'flex' : 'none'}}></div> 
+      <div className={classes.scrollTop} onClick={scrollTop} style={{display: showScroll ? 'flex' : 'none'}}/>
     </div>
   );
 }

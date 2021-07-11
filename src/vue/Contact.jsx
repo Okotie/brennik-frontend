@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import '../index.css';
 import Phone from '@material-ui/icons/Phone';
@@ -55,6 +55,7 @@ const Contact = () => {
     <>
       <div className={classes.container}>
         <div>
+          {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
           <iframe
             src="https://yandex.ru/map-widget/v1/?um=constructor%3Aed895cc642d7b97e60033e3acee0a264c9d3b820e73a4e0581ccee7736608da0&amp;source=constructor"
             width="520" height="500" frameBorder="0"/>
@@ -72,7 +73,7 @@ const Contact = () => {
             <Clock className={classes.icon}/> Ежедневно с 10:00 до 23:00<br/>
           </div>
           <div className={classes.text}>
-            <div className={classes.vkIcon}/> <a className={classes.link} href='https://vk.com/clubbrennik' target='_blank'>Мы в "Вконтакте"</a><br/>
+            <div className={classes.vkIcon}/> <a className={classes.link} href='https://vk.com/clubbrennik' target='_blank' rel="noreferrer">Мы в "Вконтакте"</a><br/>
           </div>
         </div>
       </div>

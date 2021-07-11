@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {createMuiTheme, makeStyles} from '@material-ui/core/styles';
 import '../../index.css'
 import {FiltersContext} from "./FiltersProvider";
@@ -39,7 +39,7 @@ const FilterPrice =({filter})=> {
 
   const [prices, setPrice] = useState([priceMaxMin.min, priceMaxMin.max]);
 
-  React.useEffect(
+  useEffect(
     ()=>{
       if (timeOut) clearTimeout(timeOut);
 

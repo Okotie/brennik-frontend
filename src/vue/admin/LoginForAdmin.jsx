@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {AuthContext} from "./AuthProvider";
+import {Alert} from "@material-ui/lab";
 
 
 const useStyles = makeStyles(() => ({
@@ -18,11 +19,14 @@ const useStyles = makeStyles(() => ({
 const LoginForAdmin = () => {
   const classes = useStyles();
   const [request, setRequest] = useState({username: '', password: ''});
-  const { login } = React.useContext(AuthContext);
+  const [error, setError] = useState(false);
+  const { logged, login } = React.useContext(AuthContext);
 
 
   const handleClick = () => {
     login(request);
+    logged ? setError(false) : setError(true);
+    console.log('login: ' + logged);
   };
 
   const changeUsername = (e) =>{
@@ -37,6 +41,7 @@ const LoginForAdmin = () => {
     <>
       <div className={classes.container}>
         <h3>Страница авторизации</h3>
+        {error && <Alert severity="error">Введен неверный логин или пароль</Alert>}
         <div>
           <p>Логин</p>
           <input type={'text'} value={request.username} onChange={changeUsername}/>
