@@ -98,7 +98,7 @@ const Product =({product})=> {
 
 
         <Link className={classes.link} to={`/products/${product.vendorCode}`}>
-          <div className={classes.img} style={{backgroundImage:  `url(${product.images[0]})`}}/>
+          <div className={classes.img} style={{backgroundImage:  `url(http://45.147.179.34:8080/brennik/product/image/${product.images[0]})`}}/>
           <div className={classes.info}>
             <div className={classes.title}>{product.name}</div>
             <div style={{textAlign: 'right',}} className={'price'}>{product.price + ' ₽'}</div>

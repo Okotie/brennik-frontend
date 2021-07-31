@@ -37,6 +37,29 @@ export const createProductAPI = {
           console.log(response.data)
         })
     )
+  },
+  createProductImages(vendorCode, images){
+    let formData = new FormData();
+    /*formData.append('images', images);*/
+    images.forEach((image) => {
+      formData.append('images', image);
+    });
+    return(
+      instance.post(
+        `admin/product/images/save?vendorCode=${vendorCode}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem('jwt'))}`,
+            ContentType: 'multipart/form-data',
+            AccessControlAllowCredentials: true
+          }
+        }
+      )
+        .then(response => {
+          console.log(response.data)
+        })
+    )
   }
 }
 

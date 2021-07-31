@@ -114,8 +114,8 @@ const ProductPage = ({match}) => {
               items={product.images.map((img) => ({
                 original: img,
                 sizes: '100x100',
-                renderItem: () => <img alt="item" className={classes.img} src={img} />,
-                renderThumbInner: () => <img alt="thumb" className={classes.thumbnail} src={img} />,
+                renderItem: () => <img alt="item" className={classes.img} src={'http://45.147.179.34:8080/brennik/product/image/' + img} />,
+                renderThumbInner: () => <img alt="thumb" className={classes.thumbnail} src={'http://45.147.179.34:8080/brennik/product/image/' + img} />,
               }))}
             />
           </div>

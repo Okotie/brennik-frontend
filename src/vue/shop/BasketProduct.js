@@ -49,7 +49,7 @@ export default function BasketProduct({product}) {
           <Grid item>
             <Link className={classes.link} to={`/products/${product.vendorCode}`}>
               <ButtonBase className={classes.image}>
-                <img className={classes.img} src={product.images[0]}/>
+                <img className={classes.img} src={'http://45.147.179.34:8080/brennik/product/image/' + product.images[0]}/>
               </ButtonBase>
             </Link>
           </Grid>

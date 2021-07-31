@@ -2,8 +2,17 @@ import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {createProductAPI, getCategoryAPI} from "../api/api";
 import {AuthContext} from "./AuthProvider";
-import {Chip} from "@material-ui/core";
-
+import {
+  Button,
+  Chip,
+  IconButton, List,
+  ListItem,
+  ListItemAvatar,
+  ListItemSecondaryAction,
+  ListItemText
+} from "@material-ui/core";
+import uniqid from 'uniqid';
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -17,6 +26,15 @@ const useStyles = makeStyles(() => ({
   },
   input: {
     margin: '10px',
+  },
+  img: {
+    width: '50px',
+  },
+  input1: {
+    display: 'none',
+  },
+  listItem: {
+    width: '500px',
   },
 }));
 
@@ -38,13 +56,21 @@ const PageFromAdmin = () => {
   const [categories, setCategories] = useState([]);
   const [selectedChips, setSelectedChips] = useState([]);
   const { logout } = React.useContext(AuthContext);
+  const [files, setFiles] = useState([]);
 
   useEffect(() => {
     getCategoryAPI.getAllCategories(setCategories)
   }, []);
 
+  useEffect(() => {
+    changeCategories();
+  }, [selectedChips]);
+
   const handleClick = () => {
     createProductAPI.createProduct(request);
+    if (files != null && files.length > 0) {
+      createProductAPI.createProductImages(request.vendorCode, files.map(f => f.file))
+    }
   };
 
   const changeId = (e) =>{
@@ -87,7 +113,6 @@ const PageFromAdmin = () => {
     });
   };
   const changePrice = (e) =>{
-    console.log('changePrice: ' + e.target.value);
     setRequest({
       vendorCode: request.vendorCode,
       name: request.name,
@@ -114,7 +139,6 @@ const PageFromAdmin = () => {
     });
   };
   const changeFlagNew = () =>{
-    console.log('changeFlagNew: ' + !request.flagNew);
     setRequest({
       vendorCode: request.vendorCode,
       name: request.name,
@@ -128,7 +152,6 @@ const PageFromAdmin = () => {
     });
   };
   const changeFlagSoon = () =>{
-    console.log('changeFlagSoon: ' + !request.flagSoon);
     setRequest({
       vendorCode: request.vendorCode,
       name: request.name,
@@ -142,6 +165,7 @@ const PageFromAdmin = () => {
     });
   };
   const changeCategories = () =>{
+    console.log('changeCategories: ' + JSON.stringify(selectedChips));
     setRequest({
       vendorCode: request.vendorCode,
       name: request.name,
@@ -158,8 +182,26 @@ const PageFromAdmin = () => {
     selectedChips.find(chip => chip.id === category.id) ?
       setSelectedChips(selectedChips.filter(chip => chip.id !== category.id)) :
       setSelectedChips([...selectedChips, {id: category.id}]);
+  };
 
-    changeCategories();
+  const handleUploadFiles = (e) => {
+    var uploadedfiles = e.target.files || e.dataTransfer.files;
+    if (!uploadedfiles.length) return;
+
+    const ArrayFiles = Array.from(uploadedfiles);
+    setFiles([
+      ...ArrayFiles.map((file, index) => ({
+          id: uniqid(),
+          name: file.name,
+          file: uploadedfiles[index],
+          previewUrl: URL.createObjectURL(file),
+        })),
+      ...files,
+    ]);
+  };
+
+  const handleDeleteFile = (fileId) => () => {
+    setFiles(files.filter(({ id }) => id !== fileId));
   };
 
   return(
@@ -212,11 +254,51 @@ const PageFromAdmin = () => {
               color="primary"
             />)
           ))}
-          {/*<input type={'text'} value={request.categories} onChange={changeCategories}/>*/}
+        </div>
+        <div className={classes.paper}>
+          <div>
+            <input
+              onChange={handleUploadFiles}
+              name="files"
+              accept="image/*"
+              className={classes.input1}
+              id="contained-button-file"
+              multiple
+              type="file"
+            />
+            <label htmlFor="contained-button-file">
+              <Button onClick={() => {}} variant="contained" color="primary" component="span"
+                      style={{border: '1px solid #651fff', fontSize: '10px', backgroundColor: '#FFFFFF', color: 'black'}}>
+                Добавить изображения
+              </Button>
+            </label>
+          </div>
+          {Boolean(files.length) && (
+            <List className={classes.listItem}>
+              {files.map((file, id) => (
+                <ListItem key={file.id}>
+                  <ListItemAvatar>
+                    <img  className={classes.img}
+                          alt={`${file.id}`}
+                          src={`${file.previewUrl}`}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText primary={file.name} />
+                  <ListItemSecondaryAction>
+                    <IconButton onClick={handleDeleteFile(file.id)} edge="end" aria-label="delete">
+                      <DeleteIcon />
+                    </IconButton>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))}
+            </List>
+          )}
         </div>
         <div>
           <br/>
-          <button onClick={handleClick}>Создать</button>
+          <button onClick={handleClick} style={{fontSize: '16px', backgroundColor: '#651fff', color: 'white', padding: '10px', borderRadius: '5px', cursor: 'pointer'}}>
+            Создать товар
+          </button>
         </div>
       </div>
     </>
