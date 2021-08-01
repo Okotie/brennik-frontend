@@ -1,18 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import {createProductAPI, getCategoryAPI} from "../api/api";
+import {getProductAPI, getCategoryAPI} from "../api/api";
 import {AuthContext} from "./AuthProvider";
-import {
-  Button,
-  Chip,
-  IconButton, List,
-  ListItem,
-  ListItemAvatar,
-  ListItemSecondaryAction,
-  ListItemText
-} from "@material-ui/core";
-import uniqid from 'uniqid';
-import DeleteIcon from "@material-ui/icons/Delete";
+import Tabs from "../Tabs";
+import UpdateProduct from "./UpdateProduct";
+import UpdateCategory from "./UpdateCategory";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -36,6 +28,8 @@ const useStyles = makeStyles(() => ({
   listItem: {
     width: '500px',
   },
+  tabs: {
+  },
 }));
 
 const defaultProduct = {
@@ -43,166 +37,72 @@ const defaultProduct = {
   name: '',
   description: '',
   price: null,
-  count: 0,
+  count: null,
   flagNew: false,
   flagSoon: false,
   categories: [],
   images: []
 };
 
+const defaultCategory = {
+  name: '',
+  description: '',
+  productIds: [],
+};
+
 const PageFromAdmin = () => {
   const classes = useStyles();
-  const [request, setRequest] = useState(defaultProduct);
-  const [categories, setCategories] = useState([]);
-  const [selectedChips, setSelectedChips] = useState([]);
   const { logout } = React.useContext(AuthContext);
-  const [files, setFiles] = useState([]);
+  const [vendorCode, setVendorCode] = useState("");
+  const [categoryName, setCategoryName] = useState("");
+  const [product, setProduct] = useState(defaultProduct);
+  const [category, setCategory] = useState(defaultCategory);
+  const [flagSearchProduct, setFlagSearchProduct] = useState(false);
+  const [flagSearchCategory, setFlagSearchCategory] = useState(false);
 
-  useEffect(() => {
-    getCategoryAPI.getAllCategories(setCategories)
-  }, []);
-
-  useEffect(() => {
-    changeCategories();
-  }, [selectedChips]);
-
-  const handleClick = () => {
-    createProductAPI.createProduct(request);
-    if (files != null && files.length > 0) {
-      createProductAPI.createProductImages(request.vendorCode, files.map(f => f.file))
-    }
+  const changeVendorCode = (event) => {
+    setVendorCode(event.target.value);
   };
 
-  const changeId = (e) =>{
-    setRequest({
-      vendorCode: e.target.value,
-      name: request.name,
-      description: request.description,
-      price: request.price,
-      count: request.count,
-      flagNew: request.flagNew,
-      flagSoon: request.flagSoon,
-      categories: request.categories,
-      images: request.images
-    })
-  };
-  const changeName = (e) =>{
-    setRequest({
-      vendorCode: request.vendorCode,
-      name: e.target.value,
-      description: request.description,
-      price: request.price,
-      count: request.count,
-      flagNew: request.flagNew,
-      flagSoon: request.flagSoon,
-      categories: request.categories,
-      images: request.images
-    })
-  };
-  const changeDescription = (e) =>{
-    setRequest({
-      vendorCode: request.vendorCode,
-      name: request.name,
-      description: e.target.value,
-      price: request.price,
-      count: request.count,
-      flagNew: request.flagNew,
-      flagSoon: request.flagSoon,
-      categories: request.categories,
-      images: request.images
-    });
-  };
-  const changePrice = (e) =>{
-    setRequest({
-      vendorCode: request.vendorCode,
-      name: request.name,
-      description: request.description,
-      price: e.target.value,
-      count: request.count,
-      flagNew: request.flagNew,
-      flagSoon: request.flagSoon,
-      categories: request.categories,
-      images: request.images
-    });
-  };
-  const changeCount = (e) =>{
-    setRequest({
-      vendorCode: request.vendorCode,
-      name: request.name,
-      description: request.description,
-      price: request.price,
-      count: e.target.value,
-      flagNew: request.flagNew,
-      flagSoon: request.flagSoon,
-      categories: request.categories,
-      images: request.images
-    });
-  };
-  const changeFlagNew = () =>{
-    setRequest({
-      vendorCode: request.vendorCode,
-      name: request.name,
-      description: request.description,
-      price: request.price,
-      count: request.count,
-      flagNew: !request.flagNew,
-      flagSoon: request.flagSoon,
-      categories: request.categories,
-      images: request.images
-    });
-  };
-  const changeFlagSoon = () =>{
-    setRequest({
-      vendorCode: request.vendorCode,
-      name: request.name,
-      description: request.description,
-      price: request.price,
-      count: request.count,
-      flagNew: request.flagNew,
-      flagSoon: !request.flagSoon,
-      categories: request.categories,
-      images: request.images
-    });
-  };
-  const changeCategories = () =>{
-    console.log('changeCategories: ' + JSON.stringify(selectedChips));
-    setRequest({
-      vendorCode: request.vendorCode,
-      name: request.name,
-      description: request.description,
-      price: request.price,
-      count: request.count,
-      flagNew: request.flagNew,
-      flagSoon: request.flagSoon,
-      categories: selectedChips,
-      images: request.images
-    });
-  };
-  const selectChip = (category) =>{
-    selectedChips.find(chip => chip.id === category.id) ?
-      setSelectedChips(selectedChips.filter(chip => chip.id !== category.id)) :
-      setSelectedChips([...selectedChips, {id: category.id}]);
+  const changeCategoryName = (event) => {
+    setCategoryName(event.target.value);
   };
 
-  const handleUploadFiles = (e) => {
-    var uploadedfiles = e.target.files || e.dataTransfer.files;
-    if (!uploadedfiles.length) return;
-
-    const ArrayFiles = Array.from(uploadedfiles);
-    setFiles([
-      ...ArrayFiles.map((file, index) => ({
-          id: uniqid(),
-          name: file.name,
-          file: uploadedfiles[index],
-          previewUrl: URL.createObjectURL(file),
-        })),
-      ...files,
-    ]);
+  const handleChange = () => {
+    getProductAPI.getProductByCode(vendorCode, setProduct)
+      .then(() => setFlagSearchProduct(true))
+      .catch(() => setFlagSearchProduct(false));
   };
 
-  const handleDeleteFile = (fileId) => () => {
-    setFiles(files.filter(({ id }) => id !== fileId));
+  const handleChangeCategory = () => {
+    getCategoryAPI.getCategoryByName(categoryName, setCategory)
+      .then(() => setFlagSearchCategory(true))
+      .catch(() => setFlagSearchCategory(false));
   };
+
+  const tabContent = () => (
+    [
+      { title: 'Добавление товара', content: <UpdateProduct defaultProduct={defaultProduct}/>},
+      { title: 'Изменение товара', content:
+          <>
+            <form className={'filterBox'} style={{maxWidth: '400px',}} onSubmit={(e) => {e.preventDefault()}}>
+              <input className={classes.input} value={vendorCode} type="text" placeholder={"введите артикул товара"} onChange={changeVendorCode} />
+              <button onClick={()=>{handleChange()}}>найти</button>
+            </form>
+            {flagSearchProduct && <UpdateProduct defaultProduct={product}/>}
+          </>},
+      { title: 'Добавление категории', content: <UpdateCategory defaultCategory={defaultCategory}/>},
+      { title: 'Изменение категории', content:
+          <>
+            <form className={'filterBox'} style={{maxWidth: '400px',}} onSubmit={(e) => {e.preventDefault()}}>
+              <input className={classes.input} value={categoryName} type="text" placeholder={"введите название категории"} onChange={changeCategoryName} />
+              <button onClick={()=>{handleChangeCategory()}}>найти</button>
+            </form>
+            {flagSearchCategory && <UpdateCategory defaultCategory={category}/>}
+          </>
+      },
+    ]
+  );
 
   return(
     <>
@@ -211,18 +111,21 @@ const PageFromAdmin = () => {
           <br/>
           <button onClick={logout}>Выйти из панели администратора</button>
         </div>
-        <h3>добавления товара</h3>
+        <div>
+          <Tabs items={tabContent()} className={classes.tabs}/>
+        </div>
+        {/*<h3>добавления товара</h3>
         <div>
           код товара:
-          <input className={classes.input} type={'text'} onChange={changeId}/>
+          <input className={classes.input} type={'vendorCode'} onChange={changeId}/>
         </div>
         <div>
           наименование:
-          <input className={classes.input} type={'text'} onChange={changeName} />
+          <input className={classes.input} type={'vendorCode'} onChange={changeName} />
         </div>
         <div>
           описание:
-          <input className={classes.input} type={'text'} onChange={changeDescription}/>
+          <input className={classes.input} type={'vendorCode'} onChange={changeDescription}/>
         </div>
         <div>
           цена:
@@ -299,7 +202,7 @@ const PageFromAdmin = () => {
           <button onClick={handleClick} style={{fontSize: '16px', backgroundColor: '#651fff', color: 'white', padding: '10px', borderRadius: '5px', cursor: 'pointer'}}>
             Создать товар
           </button>
-        </div>
+        </div>*/}
       </div>
     </>
   )

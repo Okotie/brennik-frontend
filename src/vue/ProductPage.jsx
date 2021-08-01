@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
 const ProductPage = ({match}) => {
   const classes = useStyles();
   const [product, setProduct] = useState({
-    vendorCode:0,
+    vendorCode:'',
     name:'',
     description:'',
     price:0,

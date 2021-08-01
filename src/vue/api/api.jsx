@@ -73,6 +73,24 @@ export const getProductAPI = {
         })
     )
   },
+  getProductByCode(code, setProduct){
+    return(
+      instance
+        .get(`product/search/vendorCode/${code}`)
+        .then(response => {
+          setProduct(response.data);
+        })
+    )
+  },
+  getProductImageByCode(code, setImage){
+    return(
+      instance
+        .get(`product/image/${code}`)
+        .then(response => {
+          setImage(response);
+        })
+    )
+  },
   getProductByMatch(match, setProduct){
     return(
       instance
@@ -118,6 +136,26 @@ export const getCategoryAPI = {
       instance.get(`category/search/all`)
         .then(response => {
           setCategories(response.data);
+        })
+    )
+  },
+  getCategoryByName(name, setCategory){
+    return(
+      instance.get(`category/search/name/${name}`)
+        .then(response => {
+          setCategory(response.data[0]);
+        })
+    )
+  },
+  createCategory(request){
+    return(
+      instance.post(
+        `admin/category/create`,
+        request,
+        {headers: { Authorization: `Bearer ${JSON.parse(localStorage.getItem('jwt'))}` }}
+      )
+        .then(response => {
+          console.log(response.data)
         })
     )
   },
