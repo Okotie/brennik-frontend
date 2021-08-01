@@ -13,6 +13,7 @@ import {
 } from "@material-ui/core";
 import uniqid from 'uniqid';
 import DeleteIcon from "@material-ui/icons/Delete";
+import {Alert} from "@material-ui/lab";
 
 const useStyles = makeStyles(() => ({
   input: {
@@ -35,6 +36,7 @@ const UpdateProduct = ({defaultProduct}) => {
   const [categories, setCategories] = useState([]);
   const [selectedChips, setSelectedChips] = useState([]);
   const [files, setFiles] = useState([]);
+  const [flagError, setFlagError] = useState(null)
 
   useEffect(() => {
     getCategoryAPI.getAllCategories(setCategories);
@@ -49,7 +51,9 @@ const UpdateProduct = ({defaultProduct}) => {
   }, [selectedChips]);
 
   const handleClick = () => {
-    createProductAPI.createProduct(request);
+    createProductAPI.createProduct(request)
+      .then(() => setFlagError(false))
+      .catch(() => setFlagError(true));
     if (files != null && files.length > 0) {
       createProductAPI.createProductImages(request.vendorCode, files.map(f => f.file))
     }
@@ -276,6 +280,11 @@ const UpdateProduct = ({defaultProduct}) => {
             Сохранить
           </button>
         </div>
+        {flagError !== null && (
+          (flagError && <Alert severity="error">При сохранении произошла ошибка</Alert>) ||
+          (!flagError && <Alert severity="success">Успешно сохранено</Alert>)
+        )}
+
       </div>
     </>
   )

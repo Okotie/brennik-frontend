@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {createProductAPI, getCategoryAPI} from "../api/api";
+import {Alert} from "@material-ui/lab";
 
 const useStyles = makeStyles(() => ({
   input: {
@@ -20,10 +21,12 @@ const useStyles = makeStyles(() => ({
 const UpdateCategory = ({defaultCategory}) => {
   const classes = useStyles();
   const [request, setRequest] = useState(defaultCategory);
-
+  const [flagError, setFlagError] = useState(null)
 
   const handleClick = () => {
-    getCategoryAPI.createCategory(request);
+    getCategoryAPI.createCategory(request)
+      .then(() => setFlagError(false))
+      .catch(() => setFlagError(true));
   };
 
   const changeName = (e) =>{
@@ -59,6 +62,10 @@ const UpdateCategory = ({defaultCategory}) => {
           </button>
         </div>
       </div>
+      {flagError !== null && (
+        (flagError && <Alert severity="error">При сохранении произошла ошибка</Alert>) ||
+        (!flagError && <Alert severity="success">Успешно сохранено</Alert>)
+      )}
     </>
   )
 };
