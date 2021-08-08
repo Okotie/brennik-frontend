@@ -30,14 +30,30 @@ let timeOut = 0;
 
 const FilterPrice =({filter})=> {
   const classes = useStyles();
-  const { changeFilter } = React.useContext(FiltersContext);
+  const { changeFilter, filtersToBackend} = React.useContext(FiltersContext);
 
   const priceMaxMin = {
     min: filter.data.values[0],
     max: filter.data.values[1],
   };
 
-  const [prices, setPrice] = useState([priceMaxMin.min, priceMaxMin.max]);
+  const [prices, setPrice] = useState([]);
+
+  useEffect(
+    ()=>{
+
+      filtersToBackend.filter(f => f.id === filter.id).length > 0 &&
+      filtersToBackend.filter(f => f.id === filter.id).map(ft =>
+        ft.data.values !== prices &&
+        setPrice([ft.data.values[0], ft.data.values[1]])
+      );
+
+      filtersToBackend.filter(f => f.id === filter.id).length < 1 &&
+      filter.data.values !== prices &&
+      setPrice([filter.data.values[0], filter.data.values[1]]);
+
+    }, [filtersToBackend]
+  );
 
   useEffect(
     ()=>{
@@ -45,7 +61,7 @@ const FilterPrice =({filter})=> {
 
       timeOut = setTimeout(() => (
         changeFilter({...filter, data: {values: prices}})
-      ), 2000);
+      ), 1000);
     }, [prices]
   );
 

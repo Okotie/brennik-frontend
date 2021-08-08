@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {createProductAPI, getCategoryAPI, getProductAPI} from "../api/api";
-import {AuthContext} from "./AuthProvider";
 import {
   Button,
   Chip,
@@ -11,9 +10,9 @@ import {
   ListItemSecondaryAction,
   ListItemText
 } from "@material-ui/core";
-import uniqid from 'uniqid';
 import DeleteIcon from "@material-ui/icons/Delete";
 import {Alert} from "@material-ui/lab";
+import uuid from "react-uuid";
 
 const useStyles = makeStyles(() => ({
   input: {
@@ -61,108 +60,59 @@ const UpdateProduct = ({defaultProduct}) => {
 
   const changeId = (e) =>{
     setRequest({
-      vendorCode: e.target.value,
-      name: request.name,
-      description: request.description,
-      price: request.price,
-      count: request.count,
-      flagNew: request.flagNew,
-      flagSoon: request.flagSoon,
-      categories: request.categories,
-      images: request.images
+      ...request,
+      vendorCode: e.target.value
     })
   };
   const changeName = (e) =>{
     setRequest({
-      vendorCode: request.vendorCode,
-      name: e.target.value,
-      description: request.description,
-      price: request.price,
-      count: request.count,
-      flagNew: request.flagNew,
-      flagSoon: request.flagSoon,
-      categories: request.categories,
-      images: request.images
+      ...request,
+      name: e.target.value
     })
   };
   const changeDescription = (e) =>{
     setRequest({
-      vendorCode: request.vendorCode,
-      name: request.name,
-      description: e.target.value,
-      price: request.price,
-      count: request.count,
-      flagNew: request.flagNew,
-      flagSoon: request.flagSoon,
-      categories: request.categories,
-      images: request.images
+      ...request,
+      description: e.target.value
+    });
+  };
+  const changeComplication = (e) =>{
+    setRequest({
+      ...request,
+      complication: e.target.value
     });
   };
   const changePrice = (e) =>{
     setRequest({
-      vendorCode: request.vendorCode,
-      name: request.name,
-      description: request.description,
-      price: e.target.value,
-      count: request.count,
-      flagNew: request.flagNew,
-      flagSoon: request.flagSoon,
-      categories: request.categories,
-      images: request.images
+      ...request,
+      price: e.target.value
     });
   };
   const changeCount = (e) =>{
     setRequest({
-      vendorCode: request.vendorCode,
-      name: request.name,
-      description: request.description,
-      price: request.price,
-      count: e.target.value,
-      flagNew: request.flagNew,
-      flagSoon: request.flagSoon,
-      categories: request.categories,
-      images: request.images
+      ...request,
+      count: e.target.value
     });
   };
   const changeFlagNew = () =>{
     setRequest({
-      vendorCode: request.vendorCode,
-      name: request.name,
-      description: request.description,
-      price: request.price,
-      count: request.count,
-      flagNew: !request.flagNew,
-      flagSoon: request.flagSoon,
-      categories: request.categories,
-      images: request.images
+      ...request,
+      flagNew: !request.flagNew
     });
   };
   const changeFlagSoon = () =>{
     setRequest({
-      vendorCode: request.vendorCode,
-      name: request.name,
-      description: request.description,
-      price: request.price,
-      count: request.count,
-      flagNew: request.flagNew,
-      flagSoon: !request.flagSoon,
-      categories: request.categories,
-      images: request.images
+      ...request,
+      flagSoon: !request.flagSoon
     });
   };
   const changeCategories = () =>{
     setRequest({
-      vendorCode: request.vendorCode,
-      name: request.name,
-      description: request.description,
-      price: request.price,
-      count: request.count,
-      flagNew: request.flagNew,
-      flagSoon: request.flagSoon,
-      categories: selectedChips,
-      images: request.images
+      ...request,
+      categories: selectedChips
     });
   };
+
   const selectChip = (category) =>{
     selectedChips.find(chip => chip.id === category.id) ?
       setSelectedChips(selectedChips.filter(chip => chip.id !== category.id)) :
@@ -176,7 +126,7 @@ const UpdateProduct = ({defaultProduct}) => {
     const ArrayFiles = Array.from(uploadedfiles);
     setFiles([
       ...ArrayFiles.map((file, index) => ({
-        id: uniqid(),
+        id: uuid(),
         name: file.name,
         file: uploadedfiles[index],
         previewUrl: URL.createObjectURL(file),
@@ -203,6 +153,10 @@ const UpdateProduct = ({defaultProduct}) => {
         <div>
           описание:
           <input className={classes.input} type={'text'} value={request.description} onChange={changeDescription}/>
+        </div>
+        <div>
+          комплектация:
+          <input className={classes.input} type={'text'} value={request.complication} onChange={changeComplication}/>
         </div>
         <div>
           цена:
@@ -233,6 +187,25 @@ const UpdateProduct = ({defaultProduct}) => {
               onClick={() => selectChip(c)}
               color="primary"
             />)
+          ))}
+        </div>
+        <div>
+          подкатегории:
+
+          {categories
+            .filter(c => selectedChips.filter(chip => chip.id === c.id).length > 0)
+            .map(c => (
+              c.childes.map(child =>
+                (<Chip
+                  className={classes.input}
+                  variant={selectedChips.find((chip) => chip.id === child.id) ? "default" : "outlined"}
+                  clickable={true}
+                  size="small"
+                  label={child.name}
+                  onClick={() => selectChip(child)}
+                  color="primary"
+                />)
+              )
           ))}
         </div>
         <div className={classes.paper}>

@@ -33,28 +33,36 @@ export default function ProductList({type}) {
 
   const title = (type) => {
     return(
-      ((type === 'NEW') && 'новинки') || ((type === 'SOON') && 'доступно к предзаказу')
+      ((type === 'NEW') && 'новинки') || ((type === 'SOON') && 'доступно к предзаказу') ||
+      ((type === 'RECOMMENDATION') && 'рекомендуем')
     )
   }
 
   useEffect(() => {
     ((type === 'NEW') && getProductAPI.getNewProduct(setProducts)) ||
-    ((type === 'SOON') && getProductAPI.getSoonProduct(setProducts));
+    ((type === 'SOON') && getProductAPI.getSoonProduct(setProducts)) ||
+    ((type === 'RECOMMENDATION') && getProductAPI.getRecommendationProduct(setProducts));
   }, []);
 
   return (
-    <div className={classes.main}>
-      <Typography className={classes.title} variant="h4">{title(type)}</Typography>
-      <hr className={classes.hr}/>
-      <div className={classes.products}>
+    <>
+      { (products !== null) && (products.length > 0) &&
+        (
+          <div className={classes.main}>
+            <Typography className={classes.title} variant="h4">{title(type)}</Typography>
+            <hr className={classes.hr}/>
+            <div className={classes.products}>
 
 
-        {products.map((product) => (
-          <Product product={product}/>
-        ))}
+              {products.map((product) => (
+                <Product product={product}/>
+              ))}
 
-      </div>
-      <hr/>
-    </div>
+            </div>
+            <hr/>
+          </div>
+        )
+      }
+    </>
   );
 }

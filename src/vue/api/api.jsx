@@ -25,6 +25,21 @@ export const authAPI = {
   },
 };
 
+export const orderAPI = {
+  save(request) {
+    return(
+      instance.post(
+        `order/create`,
+        request
+      )
+      .then(response => {
+        console.log('Заказ успешно сформирован: ' + JSON.stringify(response.data));
+      }).catch(
+      )
+    )
+  },
+};
+
 export const createProductAPI = {
   createProduct(request){
     return(
@@ -123,6 +138,15 @@ export const getProductAPI = {
     return(
       instance
         .post(`product/search`, {filters: [{id: "flagSoon", data: {value: true}}]})
+        .then(response => {
+          setProduct(response.data.content);
+        })
+    )
+  },
+  getRecommendationProduct(setProduct){
+    return(
+      instance
+        .post(`product/search`, {filters: [{id: "flagRecommendation", data: {value: true}}]})
         .then(response => {
           setProduct(response.data.content);
         })

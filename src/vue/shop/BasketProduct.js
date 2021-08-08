@@ -40,7 +40,6 @@ export default function BasketProduct({product}) {
 
   const countFromBasket = basket.find((p) => p.id === product.vendorCode) != null &&
     basket.find((p) => p.id === product.vendorCode).count;
-  const disabledAddFromBasket = countFromBasket >= product.count;
 
   return (
     <div className={classes.root}>
@@ -90,8 +89,7 @@ export default function BasketProduct({product}) {
               </span>
               <button style={{width: '30%'}}  className={'buttonGreen'}
                       onClick={() => {addToBasket({id: product.vendorCode, price: product.price})}}
-                      disabled={disabledAddFromBasket}
-                      title={disabledAddFromBasket && 'К сожалению больше нельзя добавить - в магазине нет столько товара'}>+1</button>
+              >+1</button>
             </div>
           </Grid>
           <Grid item>

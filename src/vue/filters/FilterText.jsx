@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import '../../index.css'
 import {FiltersContext} from "./FiltersProvider";
@@ -37,11 +37,29 @@ let timeOut = 0;
 
 const FilterText =({filter})=> {
   const classes = useStyles();
-  const { changeFilter, deleteFilterById } = React.useContext(FiltersContext);
+  const { changeFilter, deleteFilterById, filtersToBackend } = React.useContext(FiltersContext);
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
 
-  React.useEffect(
+  useEffect(
+    ()=>{
+      filtersToBackend.length === 0 && setText('')
+    }, [filtersToBackend]
+  );
+
+  useEffect(
+    ()=>{
+
+      filtersToBackend.filter(f => f.id === filter.id).length > 0 ?
+        filtersToBackend.filter(f => f.id === filter.id).map(ft =>
+          setText(ft.data.value)
+        ) :
+        setText('');
+
+    }, []
+  );
+
+  useEffect(
     ()=>{
 
       if (timeOut) clearTimeout(timeOut);
@@ -50,7 +68,7 @@ const FilterText =({filter})=> {
       (text.length > 0) ?
         (changeFilter({...filter, data: {value: text}})) :
         (deleteFilterById(filter.id))
-      ), 2000);
+      ), 1000);
 
     }, [text]
   );
@@ -61,9 +79,11 @@ const FilterText =({filter})=> {
 
   return (
     <>
-      <form className={'filterBox'} style={{maxWidth: '400px',}} onSubmit={(e) => {e.preventDefault()}}>
+      <form className={'filterBox'} style={{maxWidth: '400px',}}
+            onSubmit={(e) => {e.preventDefault()}}>
         <div className={'filterTitle'}>поиск по названию</div>
-        <input className={classes.input} value={text} type="text" placeholder={"введите "+filter.name+"..."} onChange={changeText} />
+        <input className={classes.input} value={text} type="text" placeholder={"введите "+filter.name+"..."}
+               onChange={changeText} />
       </form>
 
     </>

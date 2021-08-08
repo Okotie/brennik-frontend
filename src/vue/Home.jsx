@@ -3,6 +3,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import shopImg from '../assets/img/shop.jpg'
+import raspisanie from '../assets/img/raspisanie.jpg'
 import '../index.css'
 import ProductList from './ProductList';
 import {useHistory} from "react-router-dom";
@@ -74,8 +75,8 @@ const Home= (props) => {
           <div className={classes.mainBoxDiv}>
             <div style={{fontFamily: 'Raleway', fontSize: '50px', fontWeight: '900'}}>
               <div className={classes.mainBoxDivText}>
-                <div style={{fontFamily: 'Raleway', fontSize: '50px', fontWeight: '900',}}>КРУТОЙ
-                  СЛОГАН
+                <div style={{fontFamily: 'Raleway', fontSize: '50px', fontWeight: '900',}}>
+                  КРУТОЙ СЛОГАН
                 </div>
                 <div style={{
                   fontSize: '15px',
@@ -98,8 +99,22 @@ const Home= (props) => {
 
 
       <div className={classes.container}>
+        <ProductList type={'RECOMMENDATION'} />
         <ProductList type={'NEW'} />
         <ProductList type={'SOON'} />
+        <div>
+          <div style={{fontFamily: 'Raleway', fontSize: '30px', fontWeight: '700', color: '#330066', paddingTop: '20px'}}>
+            Расписание клуба
+          </div>
+          <div
+            style={{
+              backgroundImage: `url(${raspisanie})`,
+              height: '55vw',
+              width: '100%',
+              backgroundSize: 'cover',
+            }}
+          />
+        </div>
       </div>
 
 

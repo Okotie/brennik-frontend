@@ -19,12 +19,14 @@ function OrderProvider({ children }) {
     onUpdate();
   };
 
-  const addToOrders = ({id, products}) => {
+  const addToOrders = ({id, price, products}) => {
     setOrders(
       orders.concat({
         id: id,
         products: products,
-        ...{id, products}
+        price: price,
+
+        ...{id, price, products}
       })
     );
   };

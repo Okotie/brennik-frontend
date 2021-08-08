@@ -3,12 +3,13 @@ import {makeStyles} from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 import BasketProduct from "./BasketProduct";
 import {BasketContext} from "../cart/BasketProvider";
-import {formForAPI, getProductAPI} from "../api/api";
-import uniqid from 'uniqid';
+import {formForAPI, getProductAPI, orderAPI} from "../api/api";
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
 import {OrderContext} from "./OrderProvider";
 import CurrentOrders from "./CurrentOrders";
+import uuid from "react-uuid";
+import {Link} from "react-router-dom";
 
 
 const useStyles = makeStyles(() => ({
@@ -38,13 +39,13 @@ const ShoppingBasket = () => {
   const classes = useStyles();
   const { basket, count, price, clearBasket } = React.useContext(BasketContext);
   const [open, setOpen] = useState(false);
-  const [form, setFrom] = React.useState({ name: '', phone: '', email: '', comment: '', order: JSON.stringify(basket) });
+  const [form, setFrom] = React.useState({ code: '', price: 0, name: '', phone: '', email: '', comment: '', order: JSON.stringify(basket) });
   const initErrors = { name: false, phone: false, email: false};
   const [errors, setErrors] = React.useState(initErrors);
   const [isSend, setIsSend] = useState(false);
   const [isError, setIsError] = useState(false);
   const { addToOrders, orders } = React.useContext(OrderContext);
-  const [newOrder, setNewOrder] = useState({ id: 'none', products: []});
+  const [newOrder, setNewOrder] = useState({ id: 'none', price: 0, products: []});
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -63,12 +64,20 @@ const ShoppingBasket = () => {
     }, [form]
   );
 
+  useEffect(
+    ()=>{
+      setFrom({...form, price: price})
+      setNewOrder({...newOrder, price: price})
+    }, [price]
+  );
+
   const handleChange = (field) => (e) => {
     const { value } = e.target;
     setFrom({ ...form, [field]: value });
   };
 
   const handleClickOpen = () => {
+    setFrom({...form, code: uuid()})
     setOpen(true);
   };
 
@@ -101,21 +110,14 @@ const ShoppingBasket = () => {
     return !form.name || form.name.length === 0 || form.name === '';
   };
 
-  const generateCodeOrder = () => {
-    if(typeof form.email !== "undefined"){
-      let lastAtPos = form.email.lastIndexOf('@');
-      return form.email.slice(0, lastAtPos).toLowerCase() + '_' + uniqid();
-    }
-    return uniqid();
-  };
-
   const handleValidation = () => {
     setIsError(false)
     setIsSend(false)
     if (errors.name || errors.phone || errors.email)
       setIsError(true);
     else {
-      const newOrder = { id: generateCodeOrder(), products: basket };
+      const newOrder = { id: form.code, products: basket, price: price };
+      console.log("newOrder " + JSON.stringify(newOrder));
       setNewOrder(newOrder);
       addToOrders(newOrder);
 
@@ -125,7 +127,9 @@ const ShoppingBasket = () => {
         formdata.append(name, form[name]);
       }
 
-      formForAPI.sendEmail(formdata)
+      orderAPI.save({...form, data: form.order});
+
+      /*formForAPI.sendEmail(formdata)
         .catch(({ response }) => {
           console.log("formForAPI.sendEmail response " + response);
           // eslint-disable-next-line no-console
@@ -136,7 +140,7 @@ const ShoppingBasket = () => {
           setIsError(false);
           setIsSend(true)
         });
-
+*/
       clearBasket();
     }
   };
@@ -150,28 +154,16 @@ const ShoppingBasket = () => {
           После проверки наличия товара в магазине, будет выслана ссылка для оплаты заказа.
         </Alert>
       )}
-      {(orders.length > 0) &&
-        <div className={classes.container}>
-          <Typography className={classes.title} style={{textAlign: 'left',}} variant="h4">
-            предыдущие заказы
-          </Typography>
-        </div>
-      }
-      {orders.map(o =>
-        <div className={classes.container}>
-          <CurrentOrders order={o}/>
-        </div>
-      )}
 
       {basket.length > 0 &&
       <div className={classes.container}>
         <Typography className={classes.title} style={{textAlign: 'left',}} variant="h4">
-          корзина
+          Корзина
         </Typography>
         <div className={classes.columns}>
           <div>
             <Typography className={classes.title} variant="h5">
-              добавленные товары:
+              Добавленные товары:
             </Typography>
             <div>
 
@@ -189,7 +181,7 @@ const ShoppingBasket = () => {
           </div>
           <div>
             <Typography className={classes.title} variant="h6">
-              ваш заказ:
+              Ваш заказ:
               <Typography variant="subtitle1">
                 {'количество товаров: ' + count  + ' шт.'}
               </Typography>
@@ -271,11 +263,28 @@ const ShoppingBasket = () => {
       }
       {!basket.length > 0 &&
       <div className={classes.container}>
-        <Typography className={classes.title} style={{textAlign: 'center',}} variant="h4">
+        <Typography className={classes.title} style={{textAlign: 'left',}} variant="h4">
           В корзине пока ничего нет
-         </Typography>
+        </Typography>
+        <div style={{textAlign: 'left',}}>
+          <Link to={'/shop'}>
+            <button className={'buttonGrey'}>Вернуться в магазин</button>
+          </Link>
+        </div>
       </div>
       }
+      {(orders.length > 0) &&
+      <div className={classes.container}>
+        <Typography className={classes.title} style={{textAlign: 'left',}} variant="h4">
+          Предыдущие заказы
+        </Typography>
+      </div>
+      }
+      {orders.map(o =>
+        <div className={classes.container}>
+          <CurrentOrders order={o}/>
+        </div>
+      )}
     </>
   )
 };

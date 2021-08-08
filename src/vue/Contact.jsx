@@ -64,7 +64,7 @@ const Contact = () => {
         <div style={{marginLeft: '10px'}}>
           <div className={classes.title}>Как нас найти</div>
           <div className={classes.text}>
-            <Phone className={classes.icon}/><a className={classes.link} href='tel:+79161599341'>+7 (925) 059-84-32</a><br/>
+            <Phone className={classes.icon}/><a className={classes.link} href='tel:+79684835404'>+7 (968) 483-54-04</a><br/>
           </div>
           <div className={classes.text}>
             <Location className={classes.icon}/> Москва, ул Чаянова, 18А (подвал слева от 4го подъезда)<br/>

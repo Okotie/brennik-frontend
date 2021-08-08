@@ -3,6 +3,7 @@ import {makeStyles} from '@material-ui/core/styles';
 import '../index.css'
 import {Link} from "react-router-dom";
 import ButtonBuy from "./product/ButtonBuy";
+import ButtonPreOrder from "./product/ButtonPreOrder";
 
 const useStyles = makeStyles(() => ({
   main: {
@@ -93,6 +94,9 @@ const Product =({product})=> {
           <div className={classes.flagSoon}>Soon</div>
         </div>
       )}
+      {(product.count === null || product.count <= 0) && (
+        <div className={'notAvailable'}>нет в наличии</div>
+      )}
 
       <div className={classes.containers}>
 
@@ -104,7 +108,12 @@ const Product =({product})=> {
             <div style={{textAlign: 'right',}} className={'price'}>{product.price + ' ₽'}</div>
           </div>
         </Link>
-        <ButtonBuy product={product}/>
+        {
+          ((product.count !== null && product.count > 0) && (<ButtonBuy product={product}/>)) ||
+          (<ButtonPreOrder product={product}/>)
+
+        }
+
 
       </div>
     </div>

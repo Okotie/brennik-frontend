@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
   sidebar: {
     height: '100%',
-    minWidth: '20%',
+    minWidth: '350px',
     margin: '10px',
     borderRadius: '5px',
     boxShadow: '0 0 3px rgba(0,0,0,0.2)',
@@ -35,20 +35,20 @@ const useStyles = makeStyles((theme) => ({
 
 const ShopPage = () => {
   const classes = useStyles();
-  const { filters, filtersToBackend } = React.useContext(FiltersContext);
+  const { filters, filtersToBackend, dischargeFilter } = React.useContext(FiltersContext);
   const [products, setProducts] = useState([]);
   const [page, setPage] = useState({});
-  const [pageNumber, setPageNumber] = React.useState(0);
 
   useEffect(() => {
-    getProductAPI.getProductByFilters(filtersToBackend, pageNumber - 1, setProducts, setPage);
-    setPageNumber(page.numberPage)
+    getProductAPI.getProductByFilters(filtersToBackend, 0, setProducts, setPage);
   }, [filtersToBackend]);
 
   const handleChange = (event, value) => {
     getProductAPI.getProductByFilters(filtersToBackend, value - 1, setProducts, setPage);
-    setPageNumber(value);
-    window.scrollTo({top: 0, behavior: 'smooth'});
+  };
+
+  const handleDischarge = () => {
+    dischargeFilter();
   };
 
   return (
@@ -56,13 +56,25 @@ const ShopPage = () => {
       <div className={classes.container}>
         <div className={classes.sidebar}>
           <Filters filters={filters}/>
+          <div
+            style={{textAlign: 'center'}}
+          >
+            <button
+              className={'buttonWhite'}
+              onClick={handleDischarge}
+            >
+              сбросить фильтры
+            </button>
+          </div>
         </div>
 
         <div className={classes.main}>
           <Pagination count={page.totalPages} page={page.numberPage ?? ""} onChange={handleChange} />
           <div className={classes.products}>
-            {products.map((product) => (<Product product={product}/>))}
-
+            {
+              (products !== null && products.length > 0 && products.map((product) => (<Product product={product}/>))) ||
+              (<div style={{margin: '15px'}}> Ничего не найдено</div>)
+            }
           </div>
           <Pagination count={page.totalPages} page={page.numberPage ?? ""} onChange={handleChange} />
         </div>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles, withStyles} from '@material-ui/core/styles';
 import '../../index.css'
 import {FiltersContext} from "./FiltersProvider";
@@ -19,9 +19,20 @@ const CustomCheckbox = withStyles({
 })((props) => <Checkbox color="default" {...props} />);
 
 const FilterCheckbox =({filter})=> {
-  const { changeFilter, deleteFilterById } = React.useContext(FiltersContext);
+  const { changeFilter, deleteFilterById, filtersToBackend } = React.useContext(FiltersContext);
 
   const [check, setCheck] = useState(false);
+
+  useEffect(
+    ()=>{
+      filtersToBackend.filter(f => f.id === filter.id).length > 0 ?
+        filtersToBackend.filter(f => f.id === filter.id).map(ft =>
+          setCheck(Boolean(ft.data.value))
+        ) :
+        setCheck(false);
+
+    }, [filtersToBackend]
+  );
 
   React.useEffect(
     ()=>{
@@ -42,7 +53,7 @@ const FilterCheckbox =({filter})=> {
           label={<Typography style={{fontFamily: 'Roboto'}}>{filter.name}</Typography>}
           control={
             <CustomCheckbox onChange={handleChangeDeveloper} icon={<CheckBoxOutline />} checkedIcon={<Done />}
-                            value={filter.value}/>
+                            value={check} checked={check}/>
           }
         />
       </div>

@@ -5,7 +5,6 @@ import FilterControlLabel from "./FilterControlLabel";
 import FilterControlLabelRadio from "./FilterControlLabelRadio";
 import FilterCheckbox from "./FilterCheckbox";
 
-
 const Filters =({filters})=> {
   return (
     <>

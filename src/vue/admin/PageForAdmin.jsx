@@ -36,6 +36,7 @@ const defaultProduct = {
   vendorCode: '',
   name: '',
   description: '',
+  complication: '',
   price: null,
   count: null,
   flagNew: false,
@@ -48,6 +49,7 @@ const defaultCategory = {
   name: '',
   description: '',
   productIds: [],
+  childes: [],
 };
 
 const PageFromAdmin = () => {

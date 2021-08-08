@@ -37,6 +37,9 @@ const useStyles = makeStyles((theme) => ({
       borderTopColor: 'transparent',
     },
   },
+  buttonHome: {
+    textDecoration: 'none',
+  }
 }));
 
 const StyledBadge = withStyles((theme) => ({
@@ -57,10 +60,11 @@ const Header = () => {
       <CssBaseline/>
       <AppBar className={classes.header}>
         <Toolbar>
-          <Typography style={{color: '#330066', fontFamily: 'JetBrains Mono', margin: '0 25px 0 0 '}} variant="h3">
-            БРЕННИК
-          </Typography>
-
+          <Link className={classes.buttonHome} to={'/'}>
+            <Typography style={{color: '#330066', fontFamily: 'JetBrains Mono', margin: '0 25px 0 0 '}} variant="h3">
+              БРЕННИК
+            </Typography>
+          </Link>
           <Link to={'/'}>
             <button className={classes.buttonMenu}>главная</button>
           </Link>

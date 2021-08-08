@@ -5,6 +5,8 @@ import Tabs from './Tabs'
 import {getProductAPI} from "./api/api";
 import ImageGallery from "react-image-gallery";
 import ButtonBuy from "./product/ButtonBuy";
+import ButtonPreOrder from "./product/ButtonPreOrder";
+import {Chip} from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -58,16 +60,6 @@ const useStyles = makeStyles((theme) => ({
     gridColumnStart: '1',
     gridColumnEnd: '3',
   },
-  flagNew: {
-    margin: '10px',
-    color: '#70C45B',
-    fontWeight: '800',
-  },
-  flagSoon: {
-    margin: '10px',
-    color: '#FAB73D',
-    fontWeight: '800',
-  },
   thumbnail: {
     objectFit: 'cover',
     height: '40px',
@@ -94,12 +86,10 @@ const ProductPage = ({match}) => {
     getProductAPI.getProductByMatch(match, setProduct);
   }, []);
 
-  const tabContent = (description) => (
+  const tabContent = (product) => (
     [
-      { title: 'Описание', content: description },
-      { title: 'Комплектация', content: '- 72 квадрата местности ' + <br/> +
-          '- 1 дорожка подсчёта очков' + <br/> +
-          '- 40 фишек подданных' },
+      { title: 'Описание', content: product.description },
+      { title: 'Комплектация', content: product.complication },
     ]
   );
  
@@ -123,24 +113,53 @@ const ProductPage = ({match}) => {
           <div className={classes.productBriefInfo}>
 
             <div className={classes.productTitle}>{product.name}</div>
-            {Boolean(product.flagNew) && (<div className={classes.flagNew}>Новинка</div>)}
-            {Boolean(product.flagSoon) && (<div className={classes.flagSoon}>Скоро в продаже</div>)}
+            {Boolean(product.flagNew) && (<div className={'flagNew'}>Новинка</div>)}
+            {Boolean(product.flagSoon) && (<div className={'flagSoon'}>Скоро в продаже</div>)}
+            {
+              Boolean(product.count === null && product.count < 1) &&
+              (<div className={'flagNotAvailable'}>Нет в наличии</div>)
+            }
             <div className={classes.productCharacteristics}>
-              Характеристики:<br/>
-              - вес<br/>
-              - ширина<br/>
-              - высота<br/>
+
+              Категории:  {' '}
+
+              {product.categories.map(c =>
+                (<Chip
+                  className={classes.input}
+                  variant={"outlined"}
+                  clickable={false}
+                  size="small"
+                  label={c.name}
+                  color="primary"
+                  style={{borderColor: '#6633CC', color: '#6633CC'}}
+                />)
+              )}
             </div>
-            <div className={classes.productCountInfo}>на складе - |||</div>
+            <div className={classes.productCharacteristics}>
+              Артикул:
+              <div style={{display: 'inline', fontFamily: 'Roboto', color: '#666666'}}>{' '+ product.vendorCode}</div>
+            </div>
+            <div className={classes.productCharacteristics}>
+              Количество:
+              <div style={{display: 'inline', fontFamily: 'Roboto', color: '#666666'}}>
+                {
+                  ((product.count  === null || product.count < 1) && ' отсутствует') ||
+                  ((product.count < 10 && ' мало') || (' много'))
+                }
+              </div>
+            </div>
             <div style={{fontSize: '22px', margin: '10px',}} className={'price'}>{product.price + ' ₽'}</div>
             <div style={{margin: '10px', width: '15em'}}>
-              <ButtonBuy product={product}/>
+              {
+                ((product.count !== null && product.count > 0) && (<ButtonBuy product={product}/>)) ||
+                (<ButtonPreOrder product={product}/>)
+              }
             </div>
 
           </div>
 
           <div className={classes.productFullInfo}>
-            <Tabs items={tabContent(product.description)} />
+            <Tabs items={tabContent(product)} />
             {/*<div className={classes.productTitle}>Описание</div>*/}
           </div>
         </div>
